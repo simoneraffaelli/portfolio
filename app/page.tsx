@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Landing from "./components/landing/landing";
 import { AnimatePresence } from "framer-motion";
 import Preloader from "./components/preloader/Preloader";
-import Skill from "./components/skill/Skill";
+import Skill from "./components/skill/skill";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,7 +18,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className={isLoading ? 'h-dvh w-dvh overflow-hidden' : ''}>
+    <main className={`w-dvh overflow-hidden ${isLoading ? 'h-dvh' : ''}`}>
       <AnimatePresence mode='wait'>
         {isLoading && <Preloader />}
       </AnimatePresence>
