@@ -11,11 +11,10 @@ export default function Preloader() {
 
     useEffect(() => {
         if (index == words.length - 1) return;
-        let timeout: NodeJS.Timeout;
-        timeout = setTimeout(() => {
+        const timeout: NodeJS.Timeout = setTimeout(() => {
             setIndex(index + 1)
-        }, index == 0 ? 1000 : 150),
-        () => clearTimeout(timeout);
+        }, index == 0 ? 1000 : 150);
+        return () => clearTimeout(timeout);
     }, [index])
 
     return (

@@ -5,7 +5,6 @@ type AnimatedTextProps = {
     text: string | string[];
     el?: keyof JSX.IntrinsicElements;
     className?: string;
-    once?: boolean;
     repeatDelay?: number;
     trigger: boolean;
     animation?: {
@@ -32,7 +31,6 @@ export default function AnimatedText({
     text,
     el: Wrapper = "p",
     className,
-    once,
     repeatDelay,
     trigger,
     animation = defaultAnimations,
