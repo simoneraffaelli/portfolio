@@ -44,7 +44,7 @@ export default function AnimatedText({
         let timeout: NodeJS.Timeout;
         const show = () => {
             controls.start("visible");
-            console.log('show')
+
             if (repeatDelay) {
                 timeout = setTimeout(async () => {
                     await controls.start("hidden");

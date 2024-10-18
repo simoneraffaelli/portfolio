@@ -18,7 +18,7 @@ export default function Landing({ isLoading }: LandingProps) {
             x: -20
         },
         visible: {
-            opacity: 1,
+            opacity: .5,
             y: 0,
             x: 0,
             transition: {
