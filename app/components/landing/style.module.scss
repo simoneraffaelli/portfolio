@@ -25,6 +25,36 @@
     pointer-events: none;
   }
 
+  .txtContainer {
+    width: 100dvw;
+    height: 100dvh;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  .name {
+    font-size: 14rem;
+    font-weight: 300;
+    line-height: 12rem;
+    letter-spacing: -1.5vw;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    font-weight: 100;
+  }
+  
+
   canvas {
     position: absolute;
     top: 0;

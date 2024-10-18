@@ -2,19 +2,20 @@
 import { useEffect, useState } from "react";
 import Landing from "./components/landing/landing";
 import { AnimatePresence } from "framer-motion";
-import Preloader from "./components/preloader/Preloader";
+import Preloader from "./components/preloader/preloader";
 import Skill from "./components/skill/skill";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-
-    setTimeout( () => {
+    let timeout: NodeJS.Timeout;
+    timeout = setTimeout( () => {
       setIsLoading(false);
       document.body.style.cursor = 'default'
       window.scrollTo(0,0);
-    }, 3000)
+    }, 3000),
+    () => clearTimeout(timeout);
   }, []);
 
   return (
@@ -22,7 +23,7 @@ export default function Home() {
       <AnimatePresence mode='wait'>
         {isLoading && <Preloader />}
       </AnimatePresence>
-      <Landing />
+      <Landing  isLoading={isLoading} />
       <Skill/>
     </main>
   );

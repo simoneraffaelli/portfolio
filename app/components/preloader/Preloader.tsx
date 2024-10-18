@@ -6,14 +6,16 @@ import { textOpacity, unblurAndFadeOut } from './anim';
 
 const words = ["Hello", "Bonjour", "Olà", "やあ", "Hallå", "Guten tag", "Hallo", "Ciao"]
 
-export default function Index() {
+export default function Preloader() {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
         if (index == words.length - 1) return;
-        setTimeout(() => {
+        let timeout: NodeJS.Timeout;
+        timeout = setTimeout(() => {
             setIndex(index + 1)
-        }, index == 0 ? 1000 : 150)
+        }, index == 0 ? 1000 : 150),
+        () => clearTimeout(timeout);
     }, [index])
 
     return (

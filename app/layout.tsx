@@ -4,7 +4,7 @@ import "./globals.css";
 import Header from "./components/header/header";
 
 const ppNeueMontreal = localFont({
-  src: "./fonts/ppneuemontreal-medium.otf",
+  src: "./fonts/unineue-regular.otf",
 });
 
 export const metadata: Metadata = {
