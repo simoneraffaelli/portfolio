@@ -11,7 +11,7 @@ export default function Footer() {
       style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
         <div
-          className="h-dvh w-full overflow-hidden bg-gradient-to-br from-[#394e7a] via-[#8e9ac7] to-[#4ee] duration-500 ease-in [transition-property:_#394e7a,_#8e9ac7,_#4ee] before:absolute before:left-[20%] before:top-[10%] before:h-[50%] before:w-[70%] before:origin-[60%] before:animate-blob before:rounded-3xl before:bg-gradient-to-br before:from-[#394e7a] before:to-[#8e9ac7] before:blur-[50px] before:brightness-10 after:absolute after:left-[40%] after:top-[30%] after:h-[80%] after:w-[70%] after:origin-[60%] after:animate-blob-reverse after:rounded-3xl after:bg-gradient-to-br after:from-[#394e7a] after:to-[#8e9ac7] after:blur-[50px] after:brightness-10"
+          className="fixed bottom-0 h-dvh w-full overflow-hidden bg-gradient-to-br from-[#394e7a] via-[#8e9ac7] to-[#4ee] duration-500 ease-in [transition-property:_#394e7a,_#8e9ac7,_#4ee] before:absolute before:left-[20%] before:top-[10%] before:h-[50%] before:w-[70%] before:origin-[60%] before:animate-blob before:rounded-3xl before:bg-gradient-to-br before:from-[#394e7a] before:to-[#8e9ac7] before:blur-[50px] before:brightness-10 after:absolute after:left-[40%] after:top-[30%] after:h-[80%] after:w-[70%] after:origin-[60%] after:animate-blob-reverse after:rounded-3xl after:bg-gradient-to-br after:from-[#394e7a] after:to-[#8e9ac7] after:blur-[50px] after:brightness-10"
         >
           <div className='absolute top-0 h-dvh w-full p-8 flex flex-col gap-2 z-50'>
             <div className='w-full h-3/4 pt-24 flex flex-row gap-6 shrink'>
