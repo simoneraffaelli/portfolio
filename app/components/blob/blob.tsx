@@ -1,7 +1,7 @@
 'use client';
 import React, { useMemo, useRef } from "react";
-import fragmentShader from "./fragmentShader.glsl";
-import vertexShader from "./vertexShader.glsl";
+import fragmentShader from "../../utils/shaders/fragmentShader.glsl";
+import vertexShader from "../../utils/shaders/vertexShader.glsl";
 import { useFrame } from "@react-three/fiber";
 import { BufferGeometry, MathUtils, Mesh, NormalBufferAttributes, Object3DEventMap, ShaderMaterial } from "three";
 

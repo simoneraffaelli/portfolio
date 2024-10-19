@@ -1,65 +1,6 @@
 .landing {
-  height: 100dvh;
+  height: 200dvh;
   width: 100%;
   overflow: hidden;
 
-  .bkg {
-    height: 100dvh;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .glass {
-    background: rgba(218, 218, 218, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(13px);
-    -webkit-backdrop-filter: blur(13px);
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    height: 100%;
-    width: 100%;
-
-    pointer-events: none;
-  }
-
-  .txtContainer {
-    width: 100dvw;
-    height: 100dvh;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-  }
-
-  .name {
-    font-size: 14rem;
-    font-weight: 300;
-    line-height: 12rem;
-    letter-spacing: -1.2vw;
-  }
-
-  .subtitle {
-    font-size: 0.9rem;
-    font-weight: 100;
-  }
-
-  canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    height: 100%;
-    width: 100%;
-  }
 }

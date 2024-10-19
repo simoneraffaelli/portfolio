@@ -1,31 +1,7 @@
-import { motion, useAnimation, Variant } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useRef, useEffect } from "react";
-
-type AnimatedTextProps = {
-    text: string | string[];
-    el?: keyof JSX.IntrinsicElements;
-    className?: string;
-    repeatDelay?: number;
-    trigger: boolean;
-    animation?: {
-        hidden: Variant;
-        visible: Variant;
-    };
-};
-
-const defaultAnimations = {
-    hidden: {
-        opacity: 0,
-        y: 20,
-    },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.1,
-        },
-    },
-};
+import { defaultAnimations } from "./defaultAnim";
+import { AnimatedTextProps } from "@/app/utils/types/AnimatedTextProps";
 
 export default function AnimatedText({
     text,

@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/landing/blob/vertexshader.ts", "app/components/landing/blob/vertexShader.glsl", "app/components/landing/blob/fragmentShader.glsl"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/blob/vertexshader.ts", "app/components/blob/vertexShader.glsl", "app/components/blob/fragmentShader.glsl"],
   "exclude": ["node_modules"]
 }

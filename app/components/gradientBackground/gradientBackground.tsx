@@ -8,6 +8,6 @@ export default function GradientBackground() {
         gradient.initGradient("#gradient-canvas");
     }, []);
 
-    return <canvas id="gradient-canvas" data-transition-in></canvas>
+    return <canvas id="gradient-canvas" className='canvas' data-transition-in></canvas>
 }
 

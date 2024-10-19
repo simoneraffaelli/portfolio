@@ -1,0 +1,34 @@
+.bkgContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.bkg {
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.glass {
+  background: rgba(218, 218, 218, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(13px);
+  -webkit-backdrop-filter: blur(13px);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+
+  pointer-events: none;
+}
+
+.asd {
+  height: 100dvh;
+}
