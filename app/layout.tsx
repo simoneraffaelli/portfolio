@@ -8,8 +8,8 @@ const ppNeueMontreal = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Simone",
-  description: "Me",
+  title: "simone",
+  description: "me",
 };
 
 export default function RootLayout({
