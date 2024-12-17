@@ -2,8 +2,15 @@
 
 import React, { useEffect, useState } from 'react';
 
+type Repo = {
+  id: number;
+  name: string;
+  html_url: string;
+  description: string;
+};
+
 const AboutPage = () => {
-  const [repos, setRepos] = useState<any[]>([]);
+  const [repos, setRepos] = useState<Repo[]>([]);
 
   useEffect(() => {
     const fetchRepos = async () => {
