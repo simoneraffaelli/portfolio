@@ -9,6 +9,9 @@ export default function Header() {
             <Link href='/'>
                 <p className={styles.logo}>[Ә]</p>
             </Link>
+            <Link href='/about'>
+                <p className={styles.logo}>About Me</p>
+            </Link>
         </div>
     );
 }

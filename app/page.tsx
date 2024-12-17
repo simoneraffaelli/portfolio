@@ -5,6 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import Preloader from "./components/preloader/preloader";
 import Lenis from "lenis";
 import Footer from "./components/footer/footer";
+import Link from 'next/link';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,6 +37,9 @@ export default function Home() {
       </AnimatePresence>
       <Landing isLoading={isLoading} />
       <Footer />
+      <Link href='/about'>
+        <p>About Me</p>
+      </Link>
     </main>
   );
 }
