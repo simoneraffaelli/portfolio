@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 const AboutPage = () => {
-  const [repos, setRepos] = useState([]);
+  const [repos, setRepos] = useState<unknown[]>([]);
 
   useEffect(() => {
     const fetchRepos = async () => {
