@@ -10,9 +10,11 @@ export default function Header() {
             <Link href='/'>
                 <p className={styles.logo}>[Ә]</p>
             </Link>
-            <Link href='/about'>
-                <FaInfoCircle className={styles.aboutMeIcon} />
-            </Link>
+            <div className={styles.iconLinks}>
+                <Link href='/about'>
+                    <FaInfoCircle className={styles.aboutMeIcon} />
+                </Link>
+            </div>
         </div>
     );
 }
