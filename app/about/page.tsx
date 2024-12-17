@@ -11,32 +11,38 @@ type Repo = {
 
 const AboutPage = () => {
   const [repos, setRepos] = useState<Repo[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRepos = async () => {
       const response = await fetch('https://api.github.com/users/simoneraffaelli/repos');
       const data = await response.json();
       setRepos(data);
+      setLoading(false);
     };
 
     fetchRepos();
   }, []);
 
   return (
-    <div>
+    <div style={{ paddingTop: '60px' }}>
       <h1>About Me</h1>
       <p>Welcome to the About Me page. Here you can learn more about me.</p>
       <h2>My GitHub Repositories</h2>
-      <ul>
-        {repos.map((repo) => (
-          <li key={repo.id}>
-            <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
-              {repo.name}
-            </a>
-            <p>{repo.description}</p>
-          </li>
-        ))}
-      </ul>
+      {loading ? (
+        <p>Loading repositories...</p>
+      ) : (
+        <ul>
+          {repos.map((repo) => (
+            <li key={repo.id}>
+              <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+                {repo.name}
+              </a>
+              <p>{repo.description}</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
