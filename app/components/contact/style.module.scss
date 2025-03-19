@@ -46,6 +46,49 @@
       font-size: 1.5rem;
       font-weight: 200;
     }
+
+    @media screen and (max-width: 1024px) {
+      .contactEmail {
+        font-size: 5rem;
+      }
+
+      .contactTitle {
+        font-size: 1.5rem;
+      }
+
+      .contactText {
+        font-size: 1.5rem;
+      }
+      
+    }
+
+    @media screen and (max-width: 768px) {
+      .contactEmail {
+        font-size: 4rem;
+      }
+
+      .contactTitle {
+        font-size: 1.5rem;
+      }
+
+      .contactText {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .contactEmail {
+        font-size: 2.5rem;
+      }
+
+      .contactTitle {
+        font-size: 1rem;
+      }
+
+      .contactText {
+        font-size: 1rem;
+      }
+    }
   }
 }
 
