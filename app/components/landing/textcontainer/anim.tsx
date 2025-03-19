@@ -1,15 +1,18 @@
 export const textAnimations = {
     hidden: {
         opacity: 0,
-        y: 40,
-        x: -20
+        y: 12,
+        filter: "blur(10px)",
+        transition: {
+            ease: "easeIn", duration: 0.4,
+        },
     },
     visible: {
-        opacity: .5,
+        opacity: 1,
         y: 0,
-        x: 0,
+        filter: "blur(0px)",
         transition: {
-            ease: "easeIn", duration: 0.1,
+            ease: "easeIn", duration: 0.4,
         },
     },
 };

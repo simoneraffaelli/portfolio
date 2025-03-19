@@ -5,44 +5,34 @@ import { AnimatedTextProps } from "@/app/utils/types/AnimatedTextProps";
 
 export default function AnimatedText({
     text,
-    el: Wrapper = "p",
     className,
-    repeatDelay,
     trigger,
     animation = defaultAnimations,
 }: AnimatedTextProps) {
     const controls = useAnimation();
     const textArray = Array.isArray(text) ? text : [text];
-    const ref = useRef(null);
+    const ref = useRef<HTMLSpanElement>(null);
 
 
     useEffect(() => {
-        let timeout: NodeJS.Timeout;
-        const show = () => {
-            controls.start("visible");
-
-            if (repeatDelay) {
-                timeout = setTimeout(async () => {
-                    await controls.start("hidden");
-                    controls.start("visible");
-                }, repeatDelay);
-            }
-        };
-
         if (trigger) {
-            show();
+            setTimeout(() => {
+                ref.current?.classList.add(trigger ? "visible" : "hidden");
+                ref.current?.classList.remove(!trigger? "visible" : "hidden");
+                controls.start("visible");
+            }, 350);
         } else {
-            controls.start("hidden");
+            controls.start("hidden").then(() => {
+                ref.current?.classList.add(trigger? "visible" : "hidden");
+                ref.current?.classList.remove(!trigger? "visible" : "hidden");
+            });
         }
-
-        return () => clearTimeout(timeout);
     }, [trigger]);
 
     return (
-        <Wrapper className={className} object={{}}>
+        <span className={className} ref={ref}>
             <span className="sr-only">{textArray.join(" ")}</span>
             <motion.span
-                ref={ref}
                 initial="hidden"
                 animate={controls}
                 variants={{
@@ -70,6 +60,6 @@ export default function AnimatedText({
                     </span>
                 ))}
             </motion.span>
-        </Wrapper>
+        </span>
     );
 };

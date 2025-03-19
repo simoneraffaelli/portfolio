@@ -7,8 +7,23 @@
   left: 0;
   padding: 12px;
   z-index: 100;
+  justify-content: space-between;
 
   .logo {
     font-size: 48px;
+  }
+
+  .links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .link {
+    font-size: 10px;
+  }
+
+  .linkSeparator {
+    margin: 0 0.5rem;
   }
 }

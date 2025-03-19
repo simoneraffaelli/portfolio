@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "./components/header/header";
+import { Providers } from "./utils/contexts/providers";
 
 const ppNeueMontreal = localFont({
   src: "./fonts/unineue-regular.otf",
@@ -22,8 +23,10 @@ export default function RootLayout({
       <body
         className={`${ppNeueMontreal.className} antialiased`}
       >
-        <Header/>
-        {children}
+        <Providers>
+          <Header/>
+          {children}
+       </Providers>
       </body>
     </html>
   );
