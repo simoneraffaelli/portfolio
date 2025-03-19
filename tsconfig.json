@@ -32,10 +32,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    "app/components/blob/vertexshader.ts",
-    "app/components/blob/vertexShader.glsl",
-    "app/components/blob/fragmentShader.glsl"
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

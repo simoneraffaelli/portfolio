@@ -1,0 +1,95 @@
+.contactContainer {
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: var(--foreground);
+  color: var(--background);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 150;
+
+  .contactTitleArea {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 2rem;
+  }
+
+  .contactArea {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    line-height: normal;
+    
+    .mailArea {
+      border-bottom: black 3px solid;
+    }
+
+    .mailArea:hover {
+      opacity: 0.6;
+    }
+
+    .contactEmail {
+      font-size: 6rem;
+      font-weight: 400;
+    }
+
+    .contactTitle {
+      font-size: 1.5rem;
+      font-weight: 200;
+      margin-bottom: -1rem;
+    }
+
+    .contactText {
+      font-size: 1.5rem;
+      font-weight: 200;
+    }
+
+    @media screen and (max-width: 1024px) {
+      .contactEmail {
+        font-size: 5rem;
+      }
+
+      .contactTitle {
+        font-size: 1.5rem;
+      }
+
+      .contactText {
+        font-size: 1.5rem;
+      }
+      
+    }
+
+    @media screen and (max-width: 768px) {
+      .contactEmail {
+        font-size: 4rem;
+      }
+
+      .contactTitle {
+        font-size: 1.5rem;
+      }
+
+      .contactText {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .contactEmail {
+        font-size: 2.5rem;
+      }
+
+      .contactTitle {
+        font-size: 1rem;
+      }
+
+      .contactText {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+
