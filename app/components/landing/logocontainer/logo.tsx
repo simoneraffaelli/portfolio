@@ -14,7 +14,6 @@ type GLTFResult = GLTF & {
     Text001: THREE.Mesh
     Text002: THREE.Mesh
   }
-  materials: {}
 }
 export default function Logo() {
   const { nodes } = useGLTF('/text_1.glb') as unknown as GLTFResult
