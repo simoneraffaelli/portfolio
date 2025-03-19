@@ -2,7 +2,6 @@ import Link from 'next/link';
 import styles from './style.module.scss';
 import { useGlobalContext } from '@/app/utils/contexts/globalcontext';
 import { motion, Variants } from 'framer-motion';
-import { useEffect } from 'react';
 import { ArrowDownLeft } from 'lucide-react';
 
 export default function Contact() {

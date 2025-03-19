@@ -14,7 +14,7 @@ export default function Landing({ isLoading }: LandingProps) {
             <Background />
             <div className={styles.content}>
                 <TextContainer isLoading={isLoading}/>
-                <LogoContainer isLoading={isLoading}/>
+                <LogoContainer/>
             </div>
             <FluidCursor/>
             <Contact/>

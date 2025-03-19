@@ -4,7 +4,6 @@ import { MeshTransmissionMaterial, useGLTF } from "@react-three/drei";
 import * as THREE from 'three';
 import { GLTF } from "three/examples/jsm/Addons.js";
 import { useFrame } from "@react-three/fiber";
-import { LandingProps } from "@/app/utils/types/LandingProps";
 import { useRef } from "react";
 
 
@@ -17,7 +16,7 @@ type GLTFResult = GLTF & {
   }
   materials: {}
 }
-export default function Logo({ isLoading }: LandingProps) {
+export default function Logo() {
   const { nodes } = useGLTF('/text_1.glb') as unknown as GLTFResult
   const r = useRef<THREE.Mesh>();
 

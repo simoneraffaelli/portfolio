@@ -1,12 +1,11 @@
 'use client';
 
-import { LandingProps } from '@/app/utils/types/LandingProps';
 import { Canvas } from '@react-three/fiber';
 import { Environment, Float, OrbitControls, Resize } from '@react-three/drei';
 import Logo from './logo';
 
 
-export default function LogoContainer({ isLoading }: LandingProps) {
+export default function LogoContainer() {
   return (
     <Canvas
       className="main-canvas"
@@ -20,7 +19,7 @@ export default function LogoContainer({ isLoading }: LandingProps) {
         floatingRange={[0.2, 0.2]}
         >
         <Resize width={true} precise={true}>
-          <Logo isLoading={isLoading} />
+          <Logo/>
           </Resize>
       </Float>
       <Environment preset="studio" />
