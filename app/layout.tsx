@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "./components/header/header";
 import { Providers } from "./utils/contexts/providers";
+import KeySequenceHandler from "./components/easteregg/easteregg";
+import { easterEggSequence } from "./components/easteregg/eastereggutils";
 
 const ppNeueMontreal = localFont({
   src: "./fonts/unineue-regular.otf",
@@ -24,6 +26,8 @@ export default function RootLayout({
         className={`${ppNeueMontreal.className} antialiased`}
       >
         <Providers>
+          <KeySequenceHandler
+            sequence={easterEggSequence}/>
           <Header/>
           {children}
        </Providers>

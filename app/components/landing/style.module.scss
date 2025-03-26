@@ -12,7 +12,7 @@
 
 @media (max-width: 768px) {
   .content { 
-    display: grid;
+    display: flex;
     flex-direction: column;
     overflow: visible !important;
   }
@@ -33,4 +33,14 @@
   top: 0;
   bottom: 0;
   pointer-events: none;
+}
+
+.verticalText {
+  padding: 2rem;
+  position: absolute;
+  left: 0;
+  top: 80%;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  z-index: 200;
 }
