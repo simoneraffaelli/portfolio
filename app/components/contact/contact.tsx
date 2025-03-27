@@ -12,14 +12,40 @@ export default function Contact() {
             hidden: {
                 opacity: 0,
                 x: "-100vw",
-                transition: { ease: [0.76, 0, 0.24, 1], duration: 0.5 },
+                transition: { 
+                    ease: [0.76, 0, 0.24, 1],
+                    duration: 0.5,
+                },
                 display: 'none'
             },
             visible: {
                 opacity: 1,
                 x: 0,
-                transition: { ease: [0.76, 0, 0.24, 1], duration: 0.7 },
+                transition: { 
+                    ease: [0.76, 0, 0.24, 1],
+                    duration: 0.7,
+                },
                 display: 'flex'
+
+            },
+        };
+
+        const contactAreaVariants: Variants = 
+        {
+            hidden: {
+                opacity: 0,
+                x: "-10%",
+                transition: { ease: [0.76, 0, 0.24, 1], duration: 0.2 },
+            },
+            visible: {
+                opacity: 1,
+                x: 0,
+                transition: { 
+                    ease: [0.76, 0, 0.24, 1],
+                    duration: 1,
+                    delay: 0.7,
+                    type: 'spring',
+                },
 
             },
         };
@@ -32,7 +58,9 @@ export default function Contact() {
             <div className={styles.contactTitleArea}>
                 <ArrowDownLeft size={48} onClick={() => editGlobalState()} style={{cursor: 'pointer'}}/>
             </div>
-            <div className={styles.contactArea}>
+            <motion.div className={styles.contactArea}
+            variants={contactAreaVariants}
+            animate={globalState.contactButtonState ? 'visible' : 'hidden'}>
                 <p className={styles.contactTitle}>You can reach me at</p>
                 <div className={styles.mailArea}>
                     <Link href="mailto:simone@raffaelli.me" className={styles.contactEmail}>
@@ -42,7 +70,7 @@ export default function Contact() {
                 <p className={styles.contactText}>Currently based in Italy</p>
 
                 <span>{globalState.contactButtonState}</span>
-            </div>
+            </motion.div>
         </motion.div>
     );
 }
