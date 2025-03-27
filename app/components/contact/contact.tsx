@@ -12,13 +12,13 @@ export default function Contact() {
             hidden: {
                 opacity: 0,
                 x: "-100vw",
-                transition: { ease: "easeInOut", duration: 0.5 },
+                transition: { ease: [0.76, 0, 0.24, 1], duration: 0.5 },
                 display: 'none'
             },
             visible: {
                 opacity: 1,
                 x: 0,
-                transition: { ease: [0.15, 0.60, 0.2, 1.01], duration: 0.7 },
+                transition: { ease: [0.76, 0, 0.24, 1], duration: 0.7 },
                 display: 'flex'
 
             },
