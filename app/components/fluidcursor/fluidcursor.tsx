@@ -16,7 +16,7 @@ export function FluidCursor() {
             <Fluid 
             showBackground={false}
             rainbow={true}
-            fluidColor="#005eff"
+            fluidColor="#8e4cff"
             intensity={0.3}
             force={1.1}
             distortion={0.4}

@@ -17,7 +17,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className={`w-dvh h-dvh`}>
+    <main className={`w-dvw h-dvh`}>
       <AnimatePresence mode='wait'>
         {isLoading && <Preloader />}
       </AnimatePresence>

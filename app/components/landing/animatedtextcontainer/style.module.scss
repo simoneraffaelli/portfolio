@@ -1,0 +1,24 @@
+.textcontainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 2rem;
+  background: transparent;
+
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 300;
+    text-align: start;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+    font-weight: 100;
+    text-align: start;
+  }
+
+}

@@ -1,0 +1,21 @@
+.name {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background: transparent;
+  box-sizing: border-box;
+  
+  .text {
+    font-size: 6rem;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: .8rem;
+  }
+}

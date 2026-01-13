@@ -17,7 +17,7 @@ type GLTFResult = GLTF & {
 }
 export default function Logo() {
   const { nodes } = useGLTF('/text_1.glb') as unknown as GLTFResult
-  const r = useRef<THREE.Mesh>();
+  const r = useRef<THREE.Mesh>(null);
 
   nodes.Text002.geometry.center();
   nodes.Text001.geometry.center();

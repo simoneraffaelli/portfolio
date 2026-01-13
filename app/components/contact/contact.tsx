@@ -63,8 +63,8 @@ export default function Contact() {
             animate={globalState.contactButtonState ? 'visible' : 'hidden'}>
                 <p className={styles.contactTitle}>You can reach me at</p>
                 <div className={styles.mailArea}>
-                    <Link href="mailto:simone@raffaelli.me" className={styles.contactEmail}>
-                        simone@raffaelli.me
+                    <Link href="mailto:im@simone.fyi" className={styles.contactEmail}>
+                        im@simone.fyi
                     </Link>
                 </div>
                 <p className={styles.contactText}>Currently based in Italy</p>

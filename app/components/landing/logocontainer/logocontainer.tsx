@@ -10,7 +10,7 @@ export default function LogoContainer() {
     <Canvas
       className="main-canvas"
       orthographic
-      camera={{ position: [0, 0, 0], zoom: 300 }}
+      camera={{ position: [0, 0, 0], zoom: 100 }}
     >
             <Float
         speed={0.5}

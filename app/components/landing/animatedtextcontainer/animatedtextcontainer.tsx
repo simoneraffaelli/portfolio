@@ -8,7 +8,7 @@ import { LandingProps } from '@/app/utils/types/LandingProps';
 import { useEffect, useState } from 'react';
 
 
-export default function TextContainer({ isLoading }: LandingProps) {
+export default function AnimatedTextContainer({ isLoading }: LandingProps) {
     const titles = [
         "Hello! Simone here",
         "Salut! Je m'appelle Simone",

@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${ppNeueMontreal.className} antialiased`}
+        className={`${ppNeueMontreal.className} antialiased m-auto`}
       >
         <Providers>
           <KeySequenceHandler
