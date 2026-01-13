@@ -1,3 +1,5 @@
+import { easeIn } from "framer-motion"
+
 export const textOpacity = {
     initial: {
         opacity: 0
@@ -8,18 +10,18 @@ export const textOpacity = {
     },
     exit: {
         opacity: 0,
-        transition: { ease: "easeIn", duration: 0.3 }
+        transition: { ease: easeIn, duration: 0.3 }
     }
 }
 
 export const unblurAndFadeOut = {
     initial: {
         opacity: 1,
-        backdropfilter: "blur(10px)",
+        backdropFilter: "blur(10px)",
     },
     exit: {
         opacity: 0,
-        backdropfilter: "blur(0px)",
-        transition: { ease: "easeIn", duration: 0.7 }
+        backdropFilter: "blur(0px)",
+        transition: { ease: easeIn, duration: 0.7 }
     }
 }
