@@ -14,20 +14,20 @@ export function FluidCursor() {
         }}>
         <EffectComposer>
             <Fluid 
-            showBackground={false}
-            rainbow={true}
-            fluidColor="#8e4cff"
-            intensity={0.3}
+            intensity={1}
             force={1.1}
-            distortion={0.4}
-            curl={1.9}
-            swirl={4}
-            backgroundColor="#070410"
+            distortion={2}
+            curl={5}
+            swirl={10}
+            fluidColor="#433265"
+            rainbow={false}
+            backgroundColor="#000000"
+            showBackground={false}
             blend={10}
-            pressure={0.8}
+            pressure={0.80}
             densityDissipation={0.96}
             velocityDissipation={1}
-            radius={0.3}
+            radius={0.5}
             />
         </EffectComposer>
     </Canvas>
