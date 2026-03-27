@@ -14,6 +14,21 @@ export function TerminalInput({ onCommand, disabled = false }: TerminalInputProp
   const [feedback, setFeedback] = useState<{ text: string; type: "success" | "error" } | null>(null)
   const [isShaking, setIsShaking] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const feedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const shakeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const feedbackSequenceRef = useRef(0)
+
+  const clearTimers = () => {
+    if (feedbackTimeoutRef.current) {
+      clearTimeout(feedbackTimeoutRef.current)
+      feedbackTimeoutRef.current = null
+    }
+
+    if (shakeTimeoutRef.current) {
+      clearTimeout(shakeTimeoutRef.current)
+      shakeTimeoutRef.current = null
+    }
+  }
 
   useEffect(() => {
     if (disabled) {
@@ -23,6 +38,12 @@ export function TerminalInput({ onCommand, disabled = false }: TerminalInputProp
 
     inputRef.current?.focus()
   }, [disabled])
+
+  useEffect(() => {
+    return () => {
+      clearTimers()
+    }
+  }, [])
 
   // Refocus on click anywhere in the container
   const handleContainerClick = () => {
@@ -40,19 +61,45 @@ export function TerminalInput({ onCommand, disabled = false }: TerminalInputProp
 
     const result = onCommand(trimmed)
     
-    if (result.success) {
-      setFeedback(result.message ? { text: result.message, type: "success" } : null)
+    const nextFeedback = result.success
+      ? (result.message ? { text: result.message, type: "success" as const } : null)
+      : { text: result.message || `command not found: ${trimmed}`, type: "error" as const }
+
+    setFeedback(nextFeedback)
+
+    if (nextFeedback) {
+      feedbackSequenceRef.current += 1
+      const seq = feedbackSequenceRef.current
+
+      if (feedbackTimeoutRef.current) {
+        clearTimeout(feedbackTimeoutRef.current)
+      }
+
+      feedbackTimeoutRef.current = setTimeout(() => {
+        if (feedbackSequenceRef.current === seq) {
+          setFeedback(null)
+        }
+      }, 3000)
     } else {
-      setFeedback({ text: result.message || `command not found: ${trimmed}`, type: "error" })
+      feedbackSequenceRef.current += 1
+      if (feedbackTimeoutRef.current) {
+        clearTimeout(feedbackTimeoutRef.current)
+        feedbackTimeoutRef.current = null
+      }
+    }
+
+    if (!result.success) {
       setIsShaking(true)
-      setTimeout(() => setIsShaking(false), 500)
+      if (shakeTimeoutRef.current) {
+        clearTimeout(shakeTimeoutRef.current)
+      }
+      shakeTimeoutRef.current = setTimeout(() => setIsShaking(false), 500)
     }
 
     setHistory(prev => [...prev, trimmed])
     setHistoryIndex(-1)
     setInput("")
 
-    setTimeout(() => setFeedback(null), 3000)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
