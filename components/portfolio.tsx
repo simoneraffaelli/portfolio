@@ -77,6 +77,49 @@ export function Portfolio() {
   const contentRef = useRef<HTMLDivElement>(null)
   const originalContent = useRef<Map<Node, string>>(new Map())
   const simoneAnimationRunning = useRef(false)
+  const isMountedRef = useRef(true)
+  const simoneBlastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const simoneStartTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const simoneCleanupTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const simoneOverlayRef = useRef<HTMLDivElement | null>(null)
+
+  const resetSimoneMode = useCallback((unlockTerminal = true) => {
+    if (simoneBlastTimeoutRef.current) {
+      clearTimeout(simoneBlastTimeoutRef.current)
+      simoneBlastTimeoutRef.current = null
+    }
+    if (simoneStartTimeoutRef.current) {
+      clearTimeout(simoneStartTimeoutRef.current)
+      simoneStartTimeoutRef.current = null
+    }
+    if (simoneCleanupTimeoutRef.current) {
+      clearTimeout(simoneCleanupTimeoutRef.current)
+      simoneCleanupTimeoutRef.current = null
+    }
+
+    document.body.classList.remove("simone-blast-start")
+    document.body.classList.remove("simone-explosion-active")
+    document.body.classList.remove("simone-freeze-ui")
+
+    if (simoneOverlayRef.current) {
+      simoneOverlayRef.current.remove()
+      simoneOverlayRef.current = null
+    }
+
+    window.__SIMONE_DOM_MODE__ = false
+    simoneAnimationRunning.current = false
+
+    if (unlockTerminal && isMountedRef.current) {
+      setIsSimoneLocked(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false
+      resetSimoneMode(false)
+    }
+  }, [resetSimoneMode])
 
   // Apply theme to HTML element
   useEffect(() => {
@@ -193,24 +236,19 @@ export function Portfolio() {
     const blastOverlay = document.createElement("div")
     blastOverlay.className = "simone-blast-overlay"
     document.body.appendChild(blastOverlay)
+    simoneOverlayRef.current = blastOverlay
 
-    const startFxTimeout = setTimeout(() => {
+    simoneBlastTimeoutRef.current = setTimeout(() => {
+      simoneBlastTimeoutRef.current = null
       document.body.classList.remove("simone-blast-start")
-      blastOverlay.remove()
+      if (simoneOverlayRef.current === blastOverlay) {
+        blastOverlay.remove()
+        simoneOverlayRef.current = null
+      }
     }, SIMONE_BLAST_DURATION_MS)
 
-    const resetSimoneMode = () => {
-      clearTimeout(startFxTimeout)
-      document.body.classList.remove("simone-blast-start")
-      document.body.classList.remove("simone-explosion-active")
-      document.body.classList.remove("simone-freeze-ui")
-      blastOverlay.remove()
-      window.__SIMONE_DOM_MODE__ = false
-      setIsSimoneLocked(false)
-      simoneAnimationRunning.current = false
-    }
-
-    setTimeout(() => {
+    simoneStartTimeoutRef.current = setTimeout(() => {
+      simoneStartTimeoutRef.current = null
       if (!contentRoot.isConnected) {
         resetSimoneMode()
         return
@@ -297,6 +335,8 @@ export function Portfolio() {
       })
 
       const cleanup = () => {
+        simoneCleanupTimeoutRef.current = null
+
         chunks.forEach(({ chunk, originalTextNode }) => {
           if (!chunk.isConnected) return
           chunk.replaceWith(originalTextNode)
@@ -319,7 +359,7 @@ export function Portfolio() {
         resetSimoneMode()
       }
 
-      setTimeout(cleanup, SIMONE_EXPLOSION_DURATION_MS)
+      simoneCleanupTimeoutRef.current = setTimeout(cleanup, SIMONE_EXPLOSION_DURATION_MS)
     }, SIMONE_MUTATION_START_DELAY_MS)
 
     return true
