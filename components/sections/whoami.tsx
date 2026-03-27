@@ -2,12 +2,6 @@
 
 import { useEffect, useState, useRef } from "react"
 
-declare global {
-  interface Window {
-    __SIMONE_DOM_MODE__?: boolean
-  }
-}
-
 const skills = [
   { category: "Languages", items: ["TypeScript", "C#", "Kotlin", "JavaScript"] },
   { category: "Frontend", items: ["React", "Next.js", "Compose", "Tailwind"] },

@@ -57,12 +57,6 @@ function pickRandomEasterEggCommands(count: number) {
   return pool.slice(0, Math.min(count, pool.length))
 }
 
-declare global {
-  interface Window {
-    __SIMONE_DOM_MODE__?: boolean
-  }
-}
-
 export function Portfolio() {
   const [activeSection, setActiveSection] = useState<Section>("whoami")
   const [isTransitioning, setIsTransitioning] = useState(false)
@@ -180,7 +174,8 @@ export function Portfolio() {
       return false
     }
 
-    if (!contentRef.current) {
+    const contentRoot = contentRef.current
+    if (!contentRoot) {
       return false
     }
 
@@ -197,11 +192,26 @@ export function Portfolio() {
       blastOverlay.remove()
     }, 260)
 
+    const resetSimoneMode = () => {
+      clearTimeout(startFxTimeout)
+      document.body.classList.remove("simone-blast-start")
+      document.body.classList.remove("simone-explosion-active")
+      document.body.classList.remove("simone-freeze-ui")
+      blastOverlay.remove()
+      window.__SIMONE_DOM_MODE__ = false
+      simoneAnimationRunning.current = false
+    }
+
     setTimeout(() => {
+      if (!contentRoot.isConnected) {
+        resetSimoneMode()
+        return
+      }
+
       document.body.classList.add("simone-explosion-active")
       document.body.classList.add("simone-freeze-ui")
 
-      const hideTargets = Array.from(contentRef.current!.querySelectorAll<HTMLElement>("[data-simone-hide='true']"))
+      const hideTargets = Array.from(contentRoot.querySelectorAll<HTMLElement>("[data-simone-hide='true']"))
       const hiddenTargetState = hideTargets.map((el) => ({
         el,
         opacity: el.style.opacity,
@@ -212,7 +222,7 @@ export function Portfolio() {
         el.style.visibility = "hidden"
       })
 
-      const scrollTargets = Array.from(contentRef.current!.querySelectorAll<HTMLElement>(".terminal-scrollbar"))
+      const scrollTargets = Array.from(contentRoot.querySelectorAll<HTMLElement>(".terminal-scrollbar"))
       const scrollState = scrollTargets.map((el) => ({
         el,
         overflow: el.style.overflow,
@@ -227,7 +237,7 @@ export function Portfolio() {
       })
 
       const skipTags = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "INPUT"])
-      const walker = document.createTreeWalker(contentRef.current!, NodeFilter.SHOW_TEXT, {
+      const walker = document.createTreeWalker(contentRoot, NodeFilter.SHOW_TEXT, {
         acceptNode(node) {
           const parent = node.parentElement
           if (!parent) return NodeFilter.FILTER_REJECT
@@ -279,10 +289,6 @@ export function Portfolio() {
       })
 
       const cleanup = () => {
-        clearTimeout(startFxTimeout)
-        document.body.classList.remove("simone-blast-start")
-        blastOverlay.remove()
-
         chunks.forEach(({ chunk, originalTextNode }) => {
           if (!chunk.isConnected) return
           chunk.replaceWith(originalTextNode)
@@ -302,10 +308,7 @@ export function Portfolio() {
           el.style.overflowY = overflowY
         })
 
-        document.body.classList.remove("simone-explosion-active")
-        document.body.classList.remove("simone-freeze-ui")
-        window.__SIMONE_DOM_MODE__ = false
-        simoneAnimationRunning.current = false
+        resetSimoneMode()
       }
 
       setTimeout(cleanup, 2600)
