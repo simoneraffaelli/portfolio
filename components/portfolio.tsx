@@ -186,10 +186,45 @@ export function Portfolio() {
 
     simoneAnimationRunning.current = true
     window.__SIMONE_DOM_MODE__ = true
+    document.body.classList.add("simone-blast-start")
+
+    const blastOverlay = document.createElement("div")
+    blastOverlay.className = "simone-blast-overlay"
+    document.body.appendChild(blastOverlay)
+
+    const startFxTimeout = setTimeout(() => {
+      document.body.classList.remove("simone-blast-start")
+      blastOverlay.remove()
+    }, 260)
 
     setTimeout(() => {
       document.body.classList.add("simone-explosion-active")
       document.body.classList.add("simone-freeze-ui")
+
+      const hideTargets = Array.from(contentRef.current!.querySelectorAll<HTMLElement>("[data-simone-hide='true']"))
+      const hiddenTargetState = hideTargets.map((el) => ({
+        el,
+        opacity: el.style.opacity,
+        visibility: el.style.visibility,
+      }))
+      hiddenTargetState.forEach(({ el }) => {
+        el.style.opacity = "0"
+        el.style.visibility = "hidden"
+      })
+
+      const scrollTargets = Array.from(contentRef.current!.querySelectorAll<HTMLElement>(".terminal-scrollbar"))
+      const scrollState = scrollTargets.map((el) => ({
+        el,
+        overflow: el.style.overflow,
+        overflowX: el.style.overflowX,
+        overflowY: el.style.overflowY,
+      }))
+      scrollState.forEach(({ el }) => {
+        el.classList.add("simone-scrollbar-hidden")
+        el.style.overflow = "hidden"
+        el.style.overflowX = "hidden"
+        el.style.overflowY = "hidden"
+      })
 
       const skipTags = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "INPUT"])
       const walker = document.createTreeWalker(contentRef.current!, NodeFilter.SHOW_TEXT, {
@@ -244,9 +279,27 @@ export function Portfolio() {
       })
 
       const cleanup = () => {
+        clearTimeout(startFxTimeout)
+        document.body.classList.remove("simone-blast-start")
+        blastOverlay.remove()
+
         chunks.forEach(({ chunk, originalTextNode }) => {
           if (!chunk.isConnected) return
           chunk.replaceWith(originalTextNode)
+        })
+
+        hiddenTargetState.forEach(({ el, opacity, visibility }) => {
+          if (!el.isConnected) return
+          el.style.opacity = opacity
+          el.style.visibility = visibility
+        })
+
+        scrollState.forEach(({ el, overflow, overflowX, overflowY }) => {
+          if (!el.isConnected) return
+          el.classList.remove("simone-scrollbar-hidden")
+          el.style.overflow = overflow
+          el.style.overflowX = overflowX
+          el.style.overflowY = overflowY
         })
 
         document.body.classList.remove("simone-explosion-active")
