@@ -90,6 +90,8 @@ Below is the full list of recognized commands available in the terminal UI.
 - `help`
 - `?`
 - `commands`
+- `all-cmds` (opens the full command reference in a new tab)
+- `all-commands` (opens the full command reference in a new tab)
 - `clear`
 - `cls`
 - `reset`

@@ -326,6 +326,15 @@ export function Portfolio() {
       case "colors":
         return { success: true, message: "try: theme green | amber | rose | cyan | violet" }
 
+      case "all-cmds":
+      case "all-commands":
+        window.open(
+          "https://github.com/simoneraffaelli/portfolio?tab=readme-ov-file#command-reference",
+          "_blank",
+          "noopener,noreferrer"
+        )
+        return { success: true, message: "opening command reference..." }
+
       case "old":
         window.open("https://old.simone.ooo/", "_blank", "noopener,noreferrer")
         return { success: true, message: "opening old portfolio..." }
