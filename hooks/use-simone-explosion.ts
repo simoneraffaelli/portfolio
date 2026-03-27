@@ -1,11 +1,11 @@
-import { useState, useCallback, useEffect, useRef } from "react"
+import { useState, useCallback, useEffect, useRef, type RefObject } from "react"
 
 // Keep in sync with the corresponding CSS animation durations.
 const SIMONE_BLAST_DURATION_MS = 260
 const SIMONE_MUTATION_START_DELAY_MS = 80
 const SIMONE_EXPLOSION_DURATION_MS = 2600
 
-export function useSimoneExplosion(contentRef: React.RefObject<HTMLDivElement | null>) {
+export function useSimoneExplosion(contentRef: RefObject<HTMLDivElement | null>) {
   const [isLocked, setIsLocked] = useState(false)
   const animationRunning = useRef(false)
   const isMountedRef = useRef(true)

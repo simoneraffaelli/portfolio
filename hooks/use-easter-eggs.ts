@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback, type RefObject } from "react"
 import type { Theme } from "@/lib/types"
 
 /**
@@ -8,7 +8,7 @@ import type { Theme } from "@/lib/types"
  * All timers are properly cleaned up on unmount.
  */
 export function useEasterEggs(
-  contentRef: React.RefObject<HTMLDivElement | null>,
+  contentRef: RefObject<HTMLDivElement | null>,
   setTheme: (theme: Theme) => void,
 ) {
   const [showMatrix, setShowMatrix] = useState(false)
