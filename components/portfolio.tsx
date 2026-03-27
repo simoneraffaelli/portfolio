@@ -201,7 +201,7 @@ export function Portfolio() {
         const suggestions = pickRandomEasterEggCommands(3)
         return { 
           success: true, 
-          message: `whoami, projects, contact | all-commands| and also: ${suggestions.join(", ")}` 
+          message: `whoami, projects, contact | all-commands | and also: ${suggestions.join(", ")}` 
         }
       
       case "clear":
