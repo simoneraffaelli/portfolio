@@ -22,6 +22,7 @@ export function useEasterEggs(
   const glitchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const messageTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const bodyTransformTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const partyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Clean up all timers on unmount
   useEffect(() => {
@@ -30,6 +31,7 @@ export function useEasterEggs(
       if (glitchTimeoutRef.current) clearTimeout(glitchTimeoutRef.current)
       if (messageTimeoutRef.current) clearTimeout(messageTimeoutRef.current)
       if (bodyTransformTimeoutRef.current) clearTimeout(bodyTransformTimeoutRef.current)
+      if (partyTimeoutRef.current) clearTimeout(partyTimeoutRef.current)
     }
   }, [])
 
@@ -106,7 +108,8 @@ export function useEasterEggs(
 
   const triggerParty = useCallback(() => {
     setPartyMode(true)
-    setTimeout(() => setPartyMode(false), 5000)
+    if (partyTimeoutRef.current) clearTimeout(partyTimeoutRef.current)
+    partyTimeoutRef.current = setTimeout(() => setPartyMode(false), 5000)
   }, [])
 
   const triggerMeow = useCallback(() => {

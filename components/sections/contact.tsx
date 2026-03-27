@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { ArrowUpRight, Check, Copy } from "lucide-react"
 import { siGithub, siX, siBluesky, siLinktree } from "simple-icons"
 
@@ -19,6 +19,7 @@ export function ContactSection() {
   const [visibleLines, setVisibleLines] = useState(0)
   const [copied, setCopied] = useState(false)
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const totalLines = 6
 
   // Reveal lines one by one
@@ -36,10 +37,17 @@ export function ContactSection() {
     return () => clearInterval(interval)
   }, [])
 
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current)
+    }
+  }, [])
+
   const copyEmail = async () => {
     await navigator.clipboard.writeText(email)
     setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current)
+    copyTimeoutRef.current = setTimeout(() => setCopied(false), 2000)
   }
 
   return (
