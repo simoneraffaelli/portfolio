@@ -289,6 +289,11 @@ export function Portfolio() {
           if (!parent) return NodeFilter.FILTER_REJECT
           if (skipTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT
           if (parent.closest("[data-simone-ignore='true']")) return NodeFilter.FILTER_REJECT
+          if (parent.closest("[data-simone-hide='true']")) return NodeFilter.FILTER_REJECT
+          // Avoid wrapping SVG text nodes with HTML spans
+          if (parent.namespaceURI === "http://www.w3.org/2000/svg" || parent.closest("svg")) {
+            return NodeFilter.FILTER_REJECT
+          }
           if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT
           return NodeFilter.FILTER_ACCEPT
         }
