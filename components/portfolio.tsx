@@ -46,6 +46,11 @@ const easterEggCommands = [
   "xyzzy",
 ]
 
+// Keep in sync with the corresponding CSS animation durations.
+const SIMONE_BLAST_DURATION_MS = 260
+const SIMONE_MUTATION_START_DELAY_MS = 80
+const SIMONE_EXPLOSION_DURATION_MS = 2600
+
 function pickRandomEasterEggCommands(count: number) {
   const pool = [...easterEggCommands]
 
@@ -190,7 +195,7 @@ export function Portfolio() {
     const startFxTimeout = setTimeout(() => {
       document.body.classList.remove("simone-blast-start")
       blastOverlay.remove()
-    }, 260)
+    }, SIMONE_BLAST_DURATION_MS)
 
     const resetSimoneMode = () => {
       clearTimeout(startFxTimeout)
@@ -311,8 +316,8 @@ export function Portfolio() {
         resetSimoneMode()
       }
 
-      setTimeout(cleanup, 2600)
-    }, 80)
+      setTimeout(cleanup, SIMONE_EXPLOSION_DURATION_MS)
+    }, SIMONE_MUTATION_START_DELAY_MS)
 
     return true
   }
