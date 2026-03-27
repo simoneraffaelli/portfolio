@@ -140,6 +140,7 @@ Below is the full list of recognized commands available in the terminal UI.
 - `meow`
 - `cat language`
 - `nyan`
+- `simone` (explodes letters and makes them fall off-screen)
 - `woof`
 - `bark`
 - `matrix`

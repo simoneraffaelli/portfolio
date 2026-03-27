@@ -57,6 +57,12 @@ function pickRandomEasterEggCommands(count: number) {
   return pool.slice(0, Math.min(count, pool.length))
 }
 
+declare global {
+  interface Window {
+    __SIMONE_DOM_MODE__?: boolean
+  }
+}
+
 export function Portfolio() {
   const [activeSection, setActiveSection] = useState<Section>("whoami")
   const [isTransitioning, setIsTransitioning] = useState(false)
@@ -70,6 +76,7 @@ export function Portfolio() {
   const [meowMode, setMeowMode] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
   const originalContent = useRef<Map<Node, string>>(new Map())
+  const simoneAnimationRunning = useRef(false)
 
   // Apply theme to HTML element
   useEffect(() => {
@@ -168,6 +175,92 @@ export function Portfolio() {
     setTimeout(() => setShowGlitch(false), 300)
   }
 
+  const triggerSimoneExplosion = () => {
+    if (simoneAnimationRunning.current) {
+      return false
+    }
+
+    if (!contentRef.current) {
+      return false
+    }
+
+    simoneAnimationRunning.current = true
+    window.__SIMONE_DOM_MODE__ = true
+
+    setTimeout(() => {
+      document.body.classList.add("simone-explosion-active")
+      document.body.classList.add("simone-freeze-ui")
+
+      const skipTags = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "INPUT"])
+      const walker = document.createTreeWalker(contentRef.current!, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          const parent = node.parentElement
+          if (!parent) return NodeFilter.FILTER_REJECT
+          if (skipTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT
+          if (parent.closest("[data-simone-ignore='true']")) return NodeFilter.FILTER_REJECT
+          if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT
+          return NodeFilter.FILTER_ACCEPT
+        }
+      })
+
+      const textNodes: Text[] = []
+      let currentNode: Node | null
+      while ((currentNode = walker.nextNode())) {
+        textNodes.push(currentNode as Text)
+      }
+
+      const chunks: Array<{ chunk: HTMLSpanElement; originalTextNode: Text }> = []
+
+      textNodes.forEach((textNode) => {
+        const originalText = textNode.nodeValue ?? ""
+        const parent = textNode.parentNode
+        if (!parent || !parent.contains(textNode)) {
+          return
+        }
+
+        const chunk = document.createElement("span")
+        chunk.className = "simone-chunk"
+        chunk.dataset.originalText = originalText
+
+        for (const char of originalText) {
+          if (char.trim() === "") {
+            chunk.appendChild(document.createTextNode(char))
+            continue
+          }
+
+          const letter = document.createElement("span")
+          letter.className = "simone-letter"
+          letter.textContent = char
+          letter.style.setProperty("--sx", `${Math.round((Math.random() * 2 - 1) * 220)}px`)
+          letter.style.setProperty("--sy", `${Math.round(-80 - Math.random() * 200)}px`)
+          letter.style.setProperty("--rot", `${Math.round((Math.random() * 2 - 1) * 900)}deg`)
+          letter.style.setProperty("--delay", `${Math.round(Math.random() * 180)}ms`)
+          letter.style.setProperty("--duration", `${1200 + Math.round(Math.random() * 900)}ms`)
+          chunk.appendChild(letter)
+        }
+
+        parent.replaceChild(chunk, textNode)
+        chunks.push({ chunk, originalTextNode: textNode })
+      })
+
+      const cleanup = () => {
+        chunks.forEach(({ chunk, originalTextNode }) => {
+          if (!chunk.isConnected) return
+          chunk.replaceWith(originalTextNode)
+        })
+
+        document.body.classList.remove("simone-explosion-active")
+        document.body.classList.remove("simone-freeze-ui")
+        window.__SIMONE_DOM_MODE__ = false
+        simoneAnimationRunning.current = false
+      }
+
+      setTimeout(cleanup, 2600)
+    }, 80)
+
+    return true
+  }
+
   const handleCommand = useCallback((command: string): { success: boolean; message?: string } => {
     // Navigation commands
     if (sectionAliases[command]) {
@@ -222,6 +315,12 @@ export function Portfolio() {
       case "nyan":
         setMeowMode(true)
         return { success: true, message: "meow meow mrrp!" }
+
+      case "simone":
+        if (triggerSimoneExplosion()) {
+          return { success: true, message: "simone protocol activated..." }
+        }
+        return { success: true, message: "simone protocol already running" }
 
       case "woof":
       case "bark":
@@ -579,7 +678,9 @@ export function Portfolio() {
       />
 
       {/* Terminal Input */}
-      <TerminalInput onCommand={handleCommand} />
+      <div data-simone-ignore="true">
+        <TerminalInput onCommand={handleCommand} />
+      </div>
 
       {/* Main Content */}
       <main className="flex-1 overflow-hidden">

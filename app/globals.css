@@ -340,3 +340,46 @@
   25% { transform: rotate(-1deg); }
   75% { transform: rotate(1deg); }
 }
+
+/* Simone mode - explode letters and drop them off-screen */
+.simone-explosion-active {
+  cursor: progress;
+}
+
+.simone-freeze-ui {
+  pointer-events: none;
+  user-select: none;
+}
+
+.simone-chunk {
+  display: inline;
+  white-space: pre-wrap;
+}
+
+.simone-letter {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+  animation-name: simone-explode-fall;
+  animation-duration: var(--duration, 1800ms);
+  animation-delay: var(--delay, 0ms);
+  animation-timing-function: cubic-bezier(0.18, 0.75, 0.2, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes simone-explode-fall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+  18% {
+    transform: translate3d(var(--sx, 0px), var(--sy, -120px), 0) rotate(var(--rot, 0deg)) scale(1.2);
+    opacity: 1;
+    filter: blur(0.1px);
+  }
+  100% {
+    transform: translate3d(calc(var(--sx, 0px) * 0.8), 125vh, 0) rotate(var(--rot, 0deg)) scale(0.8);
+    opacity: 0;
+    filter: blur(1.2px);
+  }
+}

@@ -2,6 +2,12 @@
 
 import { useEffect, useState, useRef } from "react"
 
+declare global {
+  interface Window {
+    __SIMONE_DOM_MODE__?: boolean
+  }
+}
+
 const skills = [
   { category: "Languages", items: ["TypeScript", "C#", "Kotlin", "JavaScript"] },
   { category: "Frontend", items: ["React", "Next.js", "Compose", "Tailwind"] },
@@ -40,8 +46,14 @@ export function WhoAmISection() {
   // Typing/deleting effect
   useEffect(() => {
     const currentPhrase = phrases[phraseIndex]
+    const isSimoneDomMode = () => typeof window !== "undefined" && window.__SIMONE_DOM_MODE__
     
     const type = () => {
+      if (isSimoneDomMode()) {
+        typingTimeoutRef.current = setTimeout(type, 120)
+        return
+      }
+
       if (isDeleting) {
         // Deleting
         if (displayText.length > 0) {
@@ -59,6 +71,10 @@ export function WhoAmISection() {
         } else {
           // Pause at end before deleting
           typingTimeoutRef.current = setTimeout(() => {
+            if (isSimoneDomMode()) {
+              type()
+              return
+            }
             setIsDeleting(true)
             type()
           }, 2500)
