@@ -53,8 +53,8 @@ export function TitleBar({
       {/* Title - start aligned */}
       <div className="flex items-center gap-2 font-mono text-sm">
         <span className="text-primary">~</span>
-        <span className="text-muted-foreground">/dev/</span>
-        <span className="text-foreground font-medium">portfolio</span>
+        <span className="hidden sm:inline text-muted-foreground">/dev/</span>
+        <span className="hidden sm:inline text-foreground font-medium">portfolio</span>
       </div>
 
       {/* Controls - end aligned */}
