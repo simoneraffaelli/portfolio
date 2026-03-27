@@ -1,36 +1,284 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# simone.ooo
+
+An interactive, terminal-inspired developer portfolio built with Next.js.
+
+Instead of static navigation and traditional hero sections, this site is designed like a playful command-line interface: you type commands, switch sections, change themes, trigger visual effects, and discover hidden responses. It combines a clean minimal layout with lots of personality.
+
+## What This Site Is
+
+This project is a personal portfolio experience focused on:
+
+- fast keyboard-first interaction
+- interactive section navigation (whoami, projects, contact)
+- command-driven UX with aliases and easter eggs
+- dynamic visual modes and micro-animations (matrix rain, glitch effects, party mode, etc.)
+- a themed terminal aesthetic in both dark and light modes
+
+The core idea is to make browsing a portfolio feel more like using a developer tool than reading a static brochure page.
+
+## Key Features
+
+- Terminal input command parser
+- Multiple aliases for navigation commands
+- Theme controls (green, amber, rose, cyan, violet)
+- Light/dark mode toggle
+- Animated section transitions
+- Scrollable content panes with custom styled scrollbars
+- Dozens of hidden/fun commands and responses
+- Randomized command suggestions in the help output
+
+## Stack
+
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- Lucide + Simple Icons
+- Vercel Analytics
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure (High Level)
 
-## Learn More
+- `app/` - app shell, global styles, metadata
+- `components/portfolio.tsx` - command handler and main interactive logic
+- `components/sections/` - whoami, projects, contact panes
+- `components/ui/` - reusable UI primitives
+- `public/` - icons and static assets
 
-To learn more about Next.js, take a look at the following resources:
+## Command Reference
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Below is the full list of recognized commands available in the terminal UI.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Navigation Aliases
 
-## Deploy on Vercel
+- `about`
+- `me`
+- `who`
+- `bio`
+- `whoami`
+- `projects`
+- `work`
+- `portfolio`
+- `builds`
+- `ls`
+- `contact`
+- `email`
+- `hire`
+- `reach`
+- `mail`
+- `old` (opens `https://old.simone.ooo/` in a new tab)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Help And Terminal Basics
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `help`
+- `?`
+- `commands`
+- `clear`
+- `cls`
+- `reset`
+
+### Theme Commands
+
+- `light`
+- `day`
+- `dark`
+- `night`
+- `theme green`
+- `theme amber`
+- `theme rose`
+- `theme cyan`
+- `theme violet`
+- `theme`
+- `themes`
+- `colors`
+
+### Greetings And Chat
+
+- `hello`
+- `hi`
+- `hey`
+- `yo`
+- `thanks`
+- `thank you`
+- `thx`
+- `sorry`
+- `please`
+- `love`
+- `heart`
+- `<3`
+- `bruh`
+- `lol`
+- `lmao`
+- `haha`
+- `:(`
+- `sad`
+- `:)`
+- `happy`
+- `smile`
+
+### Easter Eggs And Fun
+
+- `meow`
+- `cat language`
+- `nyan`
+- `woof`
+- `bark`
+- `matrix`
+- `neo`
+- `redpill`
+- `bluepill`
+- `party`
+- `disco`
+- `rave`
+- `glitch`
+- `hack`
+- `crash`
+- `flip`
+- `rotate`
+- `australia`
+- `spin`
+- `barrel roll`
+- `do a barrel roll`
+- `konami`
+- `xyzzy`
+- `iddqd`
+- `rickroll`
+- `rick`
+- `sus`
+- `amogus`
+- `among us`
+
+### Danger Joke Commands
+
+- `sudo`
+- `sudo rm -rf`
+- `sudo rm -rf /`
+- `rm -rf /`
+- `sudo make me a sandwich`
+- `make me a sandwich`
+
+### Dev And Programming Jokes
+
+- `coffee`
+- `brew`
+- `java`
+- `javascript`
+- `js`
+- `rust`
+- `python`
+- `vim`
+- `nvim`
+- `neovim`
+- `emacs`
+- `nano`
+- `code`
+- `vscode`
+- `cursor`
+- `hello world`
+- `ai`
+- `chatgpt`
+- `gpt`
+- `claude`
+- `blockchain`
+- `crypto`
+- `web3`
+- `serverless`
+- `cloud`
+
+### Git And Package Manager
+
+- `git`
+- `git status`
+- `git push`
+- `git pull`
+- `git commit`
+- `npm`
+- `npm install`
+- `pnpm`
+- `yarn`
+- `bun`
+- `deno`
+- `make`
+- `make install`
+- `man`
+
+### Shell-Style Utility
+
+- `pwd`
+- `cd ..`
+- `cd`
+- `cd ~`
+- `ping`
+- `pong`
+- `date`
+- `now`
+- `time`
+- `weather`
+- `uptime`
+- `version`
+- `-v`
+- `--version`
+- `fortune`
+- `quote`
+
+### Special Values
+
+- `42`
+- `answer`
+- `69`
+- `420`
+
+### Work And Life Chatter
+
+- `hire me`
+- `money`
+- `salary`
+- `pay`
+- `music`
+- `play`
+- `sleep`
+- `zzz`
+
+### Exit And Restart
+
+- `exit`
+- `quit`
+- `q`
+- `:q`
+- `:q!`
+- `:wq`
+- `reboot`
+- `restart`
+
+### Misc
+
+- `cat`
+- `dog`
+- `cow`
+- `cowsay`
+- `secret`
+- `secrets`
+- `easter`
+
+## Notes
+
+- The `help` command intentionally shows a random selection of easter-egg suggestions each time.
+- Some commands trigger animations, temporary visual effects, or playful fake shell responses.
+- This is intentionally expressive and humorous, not a strict Unix shell emulator.
