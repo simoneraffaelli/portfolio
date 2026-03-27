@@ -158,7 +158,7 @@ export function WhoAmISection() {
       {/* Status */}
       <div className="flex flex-wrap items-center gap-3 text-sm">
         <div className="flex items-center gap-2">
-          <div data-simone-hide="true" className="relative">
+          <div data-simone-hide="true" className="relative m-1">
             <div className="w-2 h-2 rounded-full bg-primary" />
             <div className="absolute inset-0 w-2 h-2 rounded-full bg-primary animate-ping opacity-75" />
           </div>
