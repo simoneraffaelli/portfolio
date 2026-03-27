@@ -198,10 +198,10 @@ export function Portfolio() {
       case "help":
       case "?":
       case "commands":
-        const suggestions = pickRandomEasterEggCommands(4)
+        const suggestions = pickRandomEasterEggCommands(3)
         return { 
           success: true, 
-          message: `whoami, projects, contact | you can try also: ${suggestions.join(", ")}` 
+          message: `whoami, projects, contact | all-commands| and also: ${suggestions.join(", ")}` 
         }
       
       case "clear":
