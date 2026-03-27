@@ -18,7 +18,7 @@ The core idea is to make browsing a portfolio feel more like using a developer t
 
 ## Key Features
 
-- Terminal input command parser
+- Terminal input command parser with input history (arrow keys)
 - Multiple aliases for navigation commands
 - Theme controls (green, amber, rose, cyan, violet)
 - Light/dark mode toggle
@@ -32,9 +32,9 @@ The core idea is to make browsing a portfolio feel more like using a developer t
 - Next.js (App Router)
 - React
 - TypeScript
-- Tailwind CSS
+- Tailwind CSS v4
+- shadcn/ui
 - Lucide + Simple Icons
-- Vercel Analytics
 
 ## Getting Started
 
@@ -54,13 +54,30 @@ Then open:
 
 http://localhost:3000
 
-## Project Structure (High Level)
+## Project Structure
 
-- `app/` - app shell, global styles, metadata
-- `components/portfolio.tsx` - command handler and main interactive logic
-- `components/sections/` - whoami, projects, contact panes
-- `components/ui/` - reusable UI primitives
-- `public/` - icons and static assets
+```
+app/                        # app shell, global styles, metadata
+components/
+  portfolio.tsx             # command handler and main interactive logic
+  terminal-input.tsx        # command input with history and feedback
+  title-bar.tsx             # top nav with section tabs, theme, mode toggle
+  matrix-rain.tsx           # matrix rain canvas overlay
+  sections/
+    whoami.tsx              # animated typing hero + skills grid
+    projects.tsx            # collapsible project cards
+    contact.tsx             # email copy + social links
+  ui/
+    simple-icon.tsx         # simple-icons wrapper component
+hooks/
+  use-easter-eggs.ts        # visual effects: matrix, glitch, party, meow, flip, spin
+  use-simone-explosion.ts   # simone protocol letter-explosion animation
+lib/
+  commands.ts               # command parsing, static responses, section aliases
+  types.ts                  # Section and Theme types
+  utils.ts                  # utility functions
+public/                     # icons and static assets
+```
 
 ## Command Reference
 
@@ -284,3 +301,4 @@ Below is the full list of recognized commands available in the terminal UI.
 
 - The `help` command intentionally shows a random selection of easter-egg suggestions each time.
 - Some commands trigger animations, temporary visual effects, or playful fake shell responses.
+- Unknown commands return `zsh: command not found: <input>`.
