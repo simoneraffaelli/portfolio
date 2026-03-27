@@ -2,9 +2,7 @@
 
 import { User, FolderKanban, Mail, Sun, Moon, Palette } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
-
-type Section = "whoami" | "projects" | "contact"
-type Theme = "green" | "amber" | "rose" | "cyan" | "violet"
+import type { Section, Theme } from "@/lib/types"
 
 interface TitleBarProps {
   activeSection: Section
