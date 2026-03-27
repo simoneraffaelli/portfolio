@@ -28,7 +28,6 @@ export function WhoAmISection() {
   const [displayText, setDisplayText] = useState("")
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
-  const [showCursor, setShowCursor] = useState(true)
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Fade in content
@@ -101,9 +100,7 @@ export function WhoAmISection() {
         </h1>
         <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-xl min-h-[2rem]">
           {displayText}
-          {showCursor && (
-            <span data-simone-hide="true" className="inline-block w-0.5 h-5 bg-primary ml-0.5 animate-cursor" />
-          )}
+          <span data-simone-hide="true" className="inline-block w-0.5 h-5 bg-primary ml-0.5 animate-cursor" />
         </p>
       </div>
 
@@ -161,7 +158,7 @@ export function WhoAmISection() {
       {/* Status */}
       <div className="flex flex-wrap items-center gap-3 text-sm">
         <div className="flex items-center gap-2">
-          <div data-simone-hide="true" className="relative">
+          <div data-simone-hide="true" className="relative m-1">
             <div className="w-2 h-2 rounded-full bg-primary" />
             <div className="absolute inset-0 w-2 h-2 rounded-full bg-primary animate-ping opacity-75" />
           </div>

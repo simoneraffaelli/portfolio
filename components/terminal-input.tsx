@@ -139,7 +139,7 @@ export function TerminalInput({ onCommand, disabled = false }: TerminalInputProp
       <div className="max-w-4xl mx-auto">
         <form onSubmit={handleSubmit} className="flex items-center gap-3">
           <span className="text-primary font-mono text-sm select-none shrink-0">
-            visitor@portfolio:~$
+            <span className="hidden sm:inline">visitor@portfolio:</span>~$
           </span>
           <div className="relative flex-1 flex items-center">
             <input
