@@ -73,6 +73,7 @@ export function Portfolio() {
   const [key, setKey] = useState(0)
   const [partyMode, setPartyMode] = useState(false)
   const [meowMode, setMeowMode] = useState(false)
+  const [isSimoneLocked, setIsSimoneLocked] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
   const originalContent = useRef<Map<Node, string>>(new Map())
   const simoneAnimationRunning = useRef(false)
@@ -185,6 +186,7 @@ export function Portfolio() {
     }
 
     simoneAnimationRunning.current = true
+    setIsSimoneLocked(true)
     window.__SIMONE_DOM_MODE__ = true
     document.body.classList.add("simone-blast-start")
 
@@ -204,6 +206,7 @@ export function Portfolio() {
       document.body.classList.remove("simone-freeze-ui")
       blastOverlay.remove()
       window.__SIMONE_DOM_MODE__ = false
+      setIsSimoneLocked(false)
       simoneAnimationRunning.current = false
     }
 
@@ -323,6 +326,10 @@ export function Portfolio() {
   }
 
   const handleCommand = useCallback((command: string): { success: boolean; message?: string } => {
+    if (isSimoneLocked && command !== "simone") {
+      return { success: false, message: "simone protocol running..." }
+    }
+
     // Navigation commands
     if (sectionAliases[command]) {
       navigateTo(sectionAliases[command])
@@ -707,7 +714,7 @@ export function Portfolio() {
       default:
         return { success: false, message: `zsh: command not found: ${command}` }
     }
-  }, [navigateTo])
+  }, [isSimoneLocked, navigateTo])
 
   return (
     <div 
@@ -739,9 +746,7 @@ export function Portfolio() {
       />
 
       {/* Terminal Input */}
-      <div data-simone-ignore="true">
-        <TerminalInput onCommand={handleCommand} />
-      </div>
+      <TerminalInput onCommand={handleCommand} disabled={isSimoneLocked} />
 
       {/* Main Content */}
       <main className="flex-1 overflow-hidden">
