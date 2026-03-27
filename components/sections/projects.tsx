@@ -129,6 +129,7 @@ export function ProjectsSection() {
                     {project.tech.map((t, i) => (
                       <span 
                         key={t} 
+                        data-simone-hide="true"
                         className={`
                           text-xs font-mono px-2 py-0.5 rounded transition-all duration-200
                           ${hoveredId === project.id 

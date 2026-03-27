@@ -72,7 +72,7 @@ export function ContactSection() {
         style={{ animationDelay: "240ms", opacity: visibleLines >= 3 ? 1 : 0 }}
       >
         <p className="text-xs font-mono text-primary mb-3 uppercase tracking-wider flex items-center gap-2">
-          <span className="w-2 h-px bg-primary" />
+          <span data-simone-hide="true" className="w-2 h-px bg-primary" />
           Email
         </p>
         <button
@@ -108,7 +108,7 @@ export function ContactSection() {
         style={{ animationDelay: "320ms", opacity: visibleLines >= 4 ? 1 : 0 }}
       >
         <p className="text-xs font-mono text-primary mb-3 uppercase tracking-wider flex items-center gap-2">
-          <span className="w-2 h-px bg-primary" />
+          <span data-simone-hide="true" className="w-2 h-px bg-primary" />
           Links
         </p>
         <div className="space-y-2">
@@ -125,6 +125,7 @@ export function ContactSection() {
               >
                 <div className="flex min-w-0 items-center gap-4">
                   <SimpleIcon
+                    data-simone-hide="true"
                     icon={link.icon}
                     title={link.label}
                     className={`
@@ -153,7 +154,7 @@ export function ContactSection() {
         className="mt-auto pt-6 terminal-line"
         style={{ animationDelay: "400ms", opacity: visibleLines >= 5 ? 1 : 0 }}
       >
-        <div className="p-4 bg-card rounded-lg border border-border font-mono text-sm overflow-hidden">
+        <div data-simone-hide="true" className="p-4 bg-card rounded-lg border border-border font-mono text-sm overflow-hidden">
           <div className="flex items-center gap-2 text-muted-foreground mb-2">
             <span className="text-primary">$</span>
             <span>curl https://simone.ooo/status.json</span>

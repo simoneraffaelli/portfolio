@@ -40,8 +40,14 @@ export function WhoAmISection() {
   // Typing/deleting effect
   useEffect(() => {
     const currentPhrase = phrases[phraseIndex]
+    const isSimoneDomMode = () => typeof window !== "undefined" && window.__SIMONE_DOM_MODE__
     
     const type = () => {
+      if (isSimoneDomMode()) {
+        typingTimeoutRef.current = setTimeout(type, 120)
+        return
+      }
+
       if (isDeleting) {
         // Deleting
         if (displayText.length > 0) {
@@ -59,6 +65,10 @@ export function WhoAmISection() {
         } else {
           // Pause at end before deleting
           typingTimeoutRef.current = setTimeout(() => {
+            if (isSimoneDomMode()) {
+              type()
+              return
+            }
             setIsDeleting(true)
             type()
           }, 2500)
@@ -92,7 +102,7 @@ export function WhoAmISection() {
         <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-xl min-h-[2rem]">
           {displayText}
           {showCursor && (
-            <span className="inline-block w-0.5 h-5 bg-primary ml-0.5 animate-cursor" />
+            <span data-simone-hide="true" className="inline-block w-0.5 h-5 bg-primary ml-0.5 animate-cursor" />
           )}
         </p>
       </div>
@@ -117,7 +127,7 @@ export function WhoAmISection() {
             }}
           >
             <h3 className="text-xs font-mono text-primary mb-3 uppercase tracking-wider flex items-center gap-2">
-              <span className="w-2 h-px bg-primary" />
+              <span data-simone-hide="true" className="w-2 h-px bg-primary" />
               {skillGroup.category}
             </h3>
             <ul className="space-y-1.5">
@@ -134,7 +144,7 @@ export function WhoAmISection() {
                     }
                   `}
                 >
-                  <span className={`
+                  <span data-simone-hide="true" className={`
                     absolute left-0 text-primary transition-all duration-200
                     ${hoveredSkill === skill ? "opacity-100" : "opacity-0"}
                   `}>
@@ -151,7 +161,7 @@ export function WhoAmISection() {
       {/* Status */}
       <div className="flex flex-wrap items-center gap-3 text-sm">
         <div className="flex items-center gap-2">
-          <div className="relative">
+          <div data-simone-hide="true" className="relative">
             <div className="w-2 h-2 rounded-full bg-primary" />
             <div className="absolute inset-0 w-2 h-2 rounded-full bg-primary animate-ping opacity-75" />
           </div>

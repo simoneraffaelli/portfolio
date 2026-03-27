@@ -46,6 +46,11 @@ const easterEggCommands = [
   "xyzzy",
 ]
 
+// Keep in sync with the corresponding CSS animation durations.
+const SIMONE_BLAST_DURATION_MS = 260
+const SIMONE_MUTATION_START_DELAY_MS = 80
+const SIMONE_EXPLOSION_DURATION_MS = 2600
+
 function pickRandomEasterEggCommands(count: number) {
   const pool = [...easterEggCommands]
 
@@ -68,8 +73,53 @@ export function Portfolio() {
   const [key, setKey] = useState(0)
   const [partyMode, setPartyMode] = useState(false)
   const [meowMode, setMeowMode] = useState(false)
+  const [isSimoneLocked, setIsSimoneLocked] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
   const originalContent = useRef<Map<Node, string>>(new Map())
+  const simoneAnimationRunning = useRef(false)
+  const isMountedRef = useRef(true)
+  const simoneBlastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const simoneStartTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const simoneCleanupTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const simoneOverlayRef = useRef<HTMLDivElement | null>(null)
+
+  const resetSimoneMode = useCallback((unlockTerminal = true) => {
+    if (simoneBlastTimeoutRef.current) {
+      clearTimeout(simoneBlastTimeoutRef.current)
+      simoneBlastTimeoutRef.current = null
+    }
+    if (simoneStartTimeoutRef.current) {
+      clearTimeout(simoneStartTimeoutRef.current)
+      simoneStartTimeoutRef.current = null
+    }
+    if (simoneCleanupTimeoutRef.current) {
+      clearTimeout(simoneCleanupTimeoutRef.current)
+      simoneCleanupTimeoutRef.current = null
+    }
+
+    document.body.classList.remove("simone-blast-start")
+    document.body.classList.remove("simone-explosion-active")
+    document.body.classList.remove("simone-freeze-ui")
+
+    if (simoneOverlayRef.current) {
+      simoneOverlayRef.current.remove()
+      simoneOverlayRef.current = null
+    }
+
+    window.__SIMONE_DOM_MODE__ = false
+    simoneAnimationRunning.current = false
+
+    if (unlockTerminal && isMountedRef.current) {
+      setIsSimoneLocked(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false
+      resetSimoneMode(false)
+    }
+  }, [resetSimoneMode])
 
   // Apply theme to HTML element
   useEffect(() => {
@@ -168,7 +218,163 @@ export function Portfolio() {
     setTimeout(() => setShowGlitch(false), 300)
   }
 
+  const triggerSimoneExplosion = () => {
+    if (simoneAnimationRunning.current) {
+      return false
+    }
+
+    const contentRoot = contentRef.current
+    if (!contentRoot) {
+      return false
+    }
+
+    simoneAnimationRunning.current = true
+    setIsSimoneLocked(true)
+    window.__SIMONE_DOM_MODE__ = true
+    document.body.classList.add("simone-blast-start")
+
+    const blastOverlay = document.createElement("div")
+    blastOverlay.className = "simone-blast-overlay"
+    document.body.appendChild(blastOverlay)
+    simoneOverlayRef.current = blastOverlay
+
+    simoneBlastTimeoutRef.current = setTimeout(() => {
+      simoneBlastTimeoutRef.current = null
+      document.body.classList.remove("simone-blast-start")
+      if (simoneOverlayRef.current === blastOverlay) {
+        blastOverlay.remove()
+        simoneOverlayRef.current = null
+      }
+    }, SIMONE_BLAST_DURATION_MS)
+
+    simoneStartTimeoutRef.current = setTimeout(() => {
+      simoneStartTimeoutRef.current = null
+      if (!contentRoot.isConnected) {
+        resetSimoneMode()
+        return
+      }
+
+      document.body.classList.add("simone-explosion-active")
+      document.body.classList.add("simone-freeze-ui")
+
+      const hideTargets = Array.from(contentRoot.querySelectorAll<HTMLElement>("[data-simone-hide='true']"))
+      const hiddenTargetState = hideTargets.map((el) => ({
+        el,
+        opacity: el.style.opacity,
+        visibility: el.style.visibility,
+      }))
+      hiddenTargetState.forEach(({ el }) => {
+        el.style.opacity = "0"
+        el.style.visibility = "hidden"
+      })
+
+      const scrollTargets = Array.from(contentRoot.querySelectorAll<HTMLElement>(".terminal-scrollbar"))
+      const scrollState = scrollTargets.map((el) => ({
+        el,
+        overflow: el.style.overflow,
+        overflowX: el.style.overflowX,
+        overflowY: el.style.overflowY,
+      }))
+      scrollState.forEach(({ el }) => {
+        el.classList.add("simone-scrollbar-hidden")
+        el.style.overflow = "hidden"
+        el.style.overflowX = "hidden"
+        el.style.overflowY = "hidden"
+      })
+
+      const skipTags = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "INPUT"])
+      const walker = document.createTreeWalker(contentRoot, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          const parent = node.parentElement
+          if (!parent) return NodeFilter.FILTER_REJECT
+          if (skipTags.has(parent.tagName)) return NodeFilter.FILTER_REJECT
+          if (parent.closest("[data-simone-ignore='true']")) return NodeFilter.FILTER_REJECT
+          if (parent.closest("[data-simone-hide='true']")) return NodeFilter.FILTER_REJECT
+          // Avoid wrapping SVG text nodes with HTML spans
+          if (parent.namespaceURI === "http://www.w3.org/2000/svg" || parent.closest("svg")) {
+            return NodeFilter.FILTER_REJECT
+          }
+          if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT
+          return NodeFilter.FILTER_ACCEPT
+        }
+      })
+
+      const textNodes: Text[] = []
+      let currentNode: Node | null
+      while ((currentNode = walker.nextNode())) {
+        textNodes.push(currentNode as Text)
+      }
+
+      const chunks: Array<{ chunk: HTMLSpanElement; originalTextNode: Text }> = []
+
+      textNodes.forEach((textNode) => {
+        const originalText = textNode.nodeValue ?? ""
+        const parent = textNode.parentNode
+        if (!parent || !parent.contains(textNode)) {
+          return
+        }
+
+        const chunk = document.createElement("span")
+        chunk.className = "simone-chunk"
+        chunk.dataset.originalText = originalText
+
+        for (const char of originalText) {
+          if (char.trim() === "") {
+            chunk.appendChild(document.createTextNode(char))
+            continue
+          }
+
+          const letter = document.createElement("span")
+          letter.className = "simone-letter"
+          letter.textContent = char
+          letter.style.setProperty("--sx", `${Math.round((Math.random() * 2 - 1) * 220)}px`)
+          letter.style.setProperty("--sy", `${Math.round(-80 - Math.random() * 200)}px`)
+          letter.style.setProperty("--rot", `${Math.round((Math.random() * 2 - 1) * 900)}deg`)
+          letter.style.setProperty("--delay", `${Math.round(Math.random() * 180)}ms`)
+          letter.style.setProperty("--duration", `${1200 + Math.round(Math.random() * 900)}ms`)
+          chunk.appendChild(letter)
+        }
+
+        parent.replaceChild(chunk, textNode)
+        chunks.push({ chunk, originalTextNode: textNode })
+      })
+
+      const cleanup = () => {
+        simoneCleanupTimeoutRef.current = null
+
+        chunks.forEach(({ chunk, originalTextNode }) => {
+          if (!chunk.isConnected) return
+          chunk.replaceWith(originalTextNode)
+        })
+
+        hiddenTargetState.forEach(({ el, opacity, visibility }) => {
+          if (!el.isConnected) return
+          el.style.opacity = opacity
+          el.style.visibility = visibility
+        })
+
+        scrollState.forEach(({ el, overflow, overflowX, overflowY }) => {
+          if (!el.isConnected) return
+          el.classList.remove("simone-scrollbar-hidden")
+          el.style.overflow = overflow
+          el.style.overflowX = overflowX
+          el.style.overflowY = overflowY
+        })
+
+        resetSimoneMode()
+      }
+
+      simoneCleanupTimeoutRef.current = setTimeout(cleanup, SIMONE_EXPLOSION_DURATION_MS)
+    }, SIMONE_MUTATION_START_DELAY_MS)
+
+    return true
+  }
+
   const handleCommand = useCallback((command: string): { success: boolean; message?: string } => {
+    if (isSimoneLocked && command !== "simone") {
+      return { success: false, message: "simone protocol running..." }
+    }
+
     // Navigation commands
     if (sectionAliases[command]) {
       navigateTo(sectionAliases[command])
@@ -222,6 +428,12 @@ export function Portfolio() {
       case "nyan":
         setMeowMode(true)
         return { success: true, message: "meow meow mrrp!" }
+
+      case "simone":
+        if (triggerSimoneExplosion()) {
+          return { success: true, message: "simone protocol activated..." }
+        }
+        return { success: true, message: "simone protocol already running" }
 
       case "woof":
       case "bark":
@@ -547,7 +759,7 @@ export function Portfolio() {
       default:
         return { success: false, message: `zsh: command not found: ${command}` }
     }
-  }, [navigateTo])
+  }, [isSimoneLocked, navigateTo])
 
   return (
     <div 
@@ -579,7 +791,7 @@ export function Portfolio() {
       />
 
       {/* Terminal Input */}
-      <TerminalInput onCommand={handleCommand} />
+      <TerminalInput onCommand={handleCommand} disabled={isSimoneLocked} />
 
       {/* Main Content */}
       <main className="flex-1 overflow-hidden">

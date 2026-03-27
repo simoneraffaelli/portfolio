@@ -4,9 +4,10 @@ import { useState, useRef, useEffect } from "react"
 
 interface TerminalInputProps {
   onCommand: (command: string) => { success: boolean; message?: string }
+  disabled?: boolean
 }
 
-export function TerminalInput({ onCommand }: TerminalInputProps) {
+export function TerminalInput({ onCommand, disabled = false }: TerminalInputProps) {
   const [input, setInput] = useState("")
   const [history, setHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
@@ -15,16 +16,24 @@ export function TerminalInput({ onCommand }: TerminalInputProps) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
+    if (disabled) {
+      inputRef.current?.blur()
+      return
+    }
+
     inputRef.current?.focus()
-  }, [])
+  }, [disabled])
 
   // Refocus on click anywhere in the container
   const handleContainerClick = () => {
+    if (disabled) return
     inputRef.current?.focus()
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (disabled) return
+
     const trimmed = input.trim().toLowerCase()
     
     if (!trimmed) return
@@ -47,6 +56,8 @@ export function TerminalInput({ onCommand }: TerminalInputProps) {
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (disabled) return
+
     if (e.key === "ArrowUp") {
       e.preventDefault()
       if (history.length > 0) {
@@ -75,7 +86,7 @@ export function TerminalInput({ onCommand }: TerminalInputProps) {
 
   return (
     <div 
-      className="px-4 sm:px-6 py-3 bg-background border-b border-border cursor-text"
+      className={`px-4 sm:px-6 py-3 bg-background border-b border-border ${disabled ? "cursor-not-allowed opacity-80" : "cursor-text"}`}
       onClick={handleContainerClick}
     >
       <div className="max-w-4xl mx-auto">
@@ -99,8 +110,9 @@ export function TerminalInput({ onCommand }: TerminalInputProps) {
               spellCheck={false}
               autoComplete="off"
               autoCapitalize="off"
+              disabled={disabled}
             />
-            <span className="w-2 h-5 bg-primary/80 animate-cursor ml-0.5 shrink-0" />
+            <span className={`w-2 h-5 bg-primary/80 ml-0.5 shrink-0 ${disabled ? "opacity-0" : "animate-cursor"}`} />
           </div>
         </form>
         
