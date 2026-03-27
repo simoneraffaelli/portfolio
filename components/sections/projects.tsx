@@ -32,7 +32,7 @@ const projects = [
     description: "My presentation, lol.",
     tech: ["Next.js", "Three.js", "Google Stitch", "Tailwind CSS"],
     link: "https://simone.ooo",
-    github: "https://github.com/simoneraffaelli/raffaelli.me",
+    github: "https://github.com/simoneraffaelli/portfolio",
     year: `2019-${year}`,
   },
     {
