@@ -156,7 +156,7 @@ export function ContactSection() {
         <div className="p-4 bg-card rounded-lg border border-border font-mono text-sm overflow-hidden">
           <div className="flex items-center gap-2 text-muted-foreground mb-2">
             <span className="text-primary">$</span>
-            <span>curl status.json</span>
+            <span>curl https://simone.ooo/status.json</span>
           </div>
           <div className="text-foreground">
             <span className="text-primary">{"{"}</span>
