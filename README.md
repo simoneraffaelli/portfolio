@@ -2,7 +2,7 @@
 
 An interactive, terminal-inspired developer portfolio built with Next.js.
 
-Instead of static navigation and traditional hero sections, this site is designed like a playful command-line interface: you type commands, switch sections, change themes, trigger visual effects, and discover hidden responses. It combines a clean minimal layout with lots of personality.
+Instead of static navigation and traditional hero sections, this site is designed like a playful command-line interface. It combines a clean minimal layout with lots of personality (kinda lol).
 
 ## What This Site Is
 
@@ -281,4 +281,3 @@ Below is the full list of recognized commands available in the terminal UI.
 
 - The `help` command intentionally shows a random selection of easter-egg suggestions each time.
 - Some commands trigger animations, temporary visual effects, or playful fake shell responses.
-- This is intentionally expressive and humorous, not a strict Unix shell emulator.
