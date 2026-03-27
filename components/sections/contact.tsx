@@ -8,8 +8,8 @@ import { SimpleIcon } from "@/components/ui/simple-icon"
 
 const links = [
   { label: "GitHub", href: "https://github.com/simoneraffaelli", handle: "@simoneraffaelli", icon: siGithub },
-  { label: "X", href: "https://twitter.com/simone.fyi", handle: "@simone.fyi", icon: siX },
-  { label: "BlueSky", href: "https://bsky.app/profile/simone.fyi", handle: "@simone.fyi", icon: siBluesky },
+  { label: "X", href: "https://twitter.com/simonefyi", handle: "@simonefyi", icon: siX },
+  { label: "Bluesky", href: "https://bsky.app/profile/simone.fyi", handle: "@simone.fyi", icon: siBluesky },
   { label: "Linktree", href: "https://linktr.ee/simone.fyi", handle: "simone.fyi", icon: siLinktree },
 ]
 
