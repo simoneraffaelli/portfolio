@@ -23,8 +23,8 @@ const projects = [
     description: "______________________________________________________________________________",
     tech: ["HTML", "CSS", "NFT", "Web3"],
     link: "https://unredacted.art/",
-    github: "#",
-    year: "2023",
+    github: "https://opensea.io/collection/vandalartunrdtcd",
+    year: "2022",
   },
   {
     id: "03",
