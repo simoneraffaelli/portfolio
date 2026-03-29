@@ -336,9 +336,11 @@ export function PretextPlayground() {
 
     // Throttle React metrics updates to avoid re-rendering at ~60fps.
     const now = performance.now()
-    const lastMetricsUpdate = (s as any).metricsLastUpdate || 0
+    type StateWithMetrics = typeof s & { metricsLastUpdate?: number }
+    const stateWithMetrics = s as StateWithMetrics
+    const lastMetricsUpdate = stateWithMetrics.metricsLastUpdate ?? 0
     if (now - lastMetricsUpdate >= 250) {
-      ;(s as any).metricsLastUpdate = now
+      stateWithMetrics.metricsLastUpdate = now
       const orbsCount = s.orbs.length
       setMetrics(prev => {
         if (
