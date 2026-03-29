@@ -8,6 +8,14 @@ const playgroundComponents: Record<string, React.ComponentType> = {
   particletext: ParticleTextPlayground,
 }
 
+export function getRenderablePlaygroundIds(): string[] {
+  return Object.keys(playgroundComponents)
+}
+
+export function isRenderablePlaygroundId(id: string): boolean {
+  return id in playgroundComponents
+}
+
 interface PlaygroundSectionProps {
   playgroundId: string
 }

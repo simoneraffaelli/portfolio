@@ -6,11 +6,10 @@ import { TitleBar } from "./title-bar"
 import { WhoAmISection } from "./sections/whoami"
 import { ProjectsSection } from "./sections/projects"
 import { ContactSection } from "./sections/contact"
-import { PlaygroundSection } from "./sections/playground"
+import { PlaygroundSection, getRenderablePlaygroundIds, isRenderablePlaygroundId } from "./sections/playground"
 import { MatrixRain } from "./matrix-rain"
 import type { Section, Theme } from "@/lib/types"
 import { sectionAliases, getStaticResponse } from "@/lib/commands"
-import { playgroundRegistry } from "@/lib/playgrounds"
 import { useSimoneExplosion } from "@/hooks/use-simone-explosion"
 import { useEasterEggs } from "@/hooks/use-easter-eggs"
 
@@ -75,12 +74,12 @@ export function Portfolio() {
 
     // Playground commands
     if (command === "playground" || command === "playgrounds") {
-      const ids = Object.keys(playgroundRegistry)
+      const ids = getRenderablePlaygroundIds()
       return { success: true, message: `available: ${ids.map(id => `playground ${id}`).join(", ")}` }
     }
     if (command.startsWith("playground ")) {
       const arg = command.slice("playground ".length).trim()
-      if (arg in playgroundRegistry) {
+      if (isRenderablePlaygroundId(arg)) {
         setPlaygroundId(arg)
         if (activeSection === "playground") {
           setKey(k => k + 1)

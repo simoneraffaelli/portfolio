@@ -323,7 +323,23 @@ export function PretextPlayground() {
 
     ctx.restore()
 
-    setMetrics({ lines: lineCount, ms: layoutMs, orbs: s.orbs.length })
+    // Throttle React metrics updates to avoid re-rendering at ~60fps.
+    const now = performance.now()
+    const lastMetricsUpdate = (s as any).metricsLastUpdate || 0
+    if (now - lastMetricsUpdate >= 250) {
+      ;(s as any).metricsLastUpdate = now
+      const orbsCount = s.orbs.length
+      setMetrics(prev => {
+        if (
+          prev.lines === lineCount &&
+          prev.ms === layoutMs &&
+          prev.orbs === orbsCount
+        ) {
+          return prev
+        }
+        return { lines: lineCount, ms: layoutMs, orbs: orbsCount }
+      })
+    }
   }, [])
 
   // Main animation loop

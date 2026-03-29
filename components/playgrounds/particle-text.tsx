@@ -195,7 +195,7 @@ export function ParticleTextPlayground() {
     const h = canvas.height / dpr
 
     const area = w * h
-    s.gap = area > 400000 ? 4 : area > 200000 ? 5 : 6
+    s.gap = area > 400000 ? 6 : area > 200000 ? 5 : 4
 
     const newParticles = sampleToParticles(entry, w, h, s.gap)
 
@@ -337,7 +337,7 @@ export function ParticleTextPlayground() {
       }
     }
 
-    setTimeout(scrambleStep, 150)
+     s.scrambleTimer = setTimeout(scrambleStep, 150)
   }, [buildParticles])
 
   // Init

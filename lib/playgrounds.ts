@@ -8,7 +8,3 @@ export const playgroundRegistry: Record<string, { title: string; description: st
     description: "text made of particles that scatter & reform",
   },
 }
-
-export function getPlaygroundIds(): string[] {
-  return Object.keys(playgroundRegistry)
-}
