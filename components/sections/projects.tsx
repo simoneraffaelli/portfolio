@@ -29,8 +29,8 @@ const projects = [
   {
     id: "03",
     title: "Portfolio Website",
-    description: "My presentation, lol.",
-    tech: ["Next.js", "Three.js", "Google Stitch", "Tailwind CSS"],
+    description: "Literaly this website, lol.",
+    tech: ["Next.js", "v0", "Google Stitch", "Tailwind CSS"],
     link: "https://simone.ooo",
     github: "https://github.com/simoneraffaelli/portfolio",
     year: `2019-${year}`,
