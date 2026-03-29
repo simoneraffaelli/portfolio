@@ -192,7 +192,7 @@ export function getStaticResponse(command: string): CommandResult | null {
     case "commands": {
       return {
         success: true,
-        message: `whoami, projects, contact, playground | all-commands`,
+        message: `whoami, projects, contact, playgrounds | all-commands`,
       }
     }
   }
