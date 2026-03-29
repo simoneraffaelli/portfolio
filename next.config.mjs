@@ -1,6 +1,9 @@
 import { execSync } from 'child_process'
 
-const commitSha = execSync('git rev-parse --short HEAD').toString().trim()
+let commitSha = process.env.COMMIT_SHA || 'unknown'
+try {
+  commitSha = execSync('git rev-parse --short HEAD').toString().trim()
+} catch {}
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
