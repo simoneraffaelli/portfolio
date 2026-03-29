@@ -337,7 +337,7 @@ export function ParticleTextPlayground() {
       }
     }
 
-     s.scrambleTimer = setTimeout(scrambleStep, 150)
+    s.scrambleTimer = setTimeout(scrambleStep, 150)
   }, [buildParticles])
 
   // Init
