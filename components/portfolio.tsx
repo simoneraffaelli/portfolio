@@ -6,6 +6,7 @@ import { TitleBar } from "./title-bar"
 import { WhoAmISection } from "./sections/whoami"
 import { ProjectsSection } from "./sections/projects"
 import { ContactSection } from "./sections/contact"
+import { PlaygroundSection, getRenderablePlaygroundIds, isRenderablePlaygroundId } from "./sections/playground"
 import { MatrixRain } from "./matrix-rain"
 import type { Section, Theme } from "@/lib/types"
 import { sectionAliases, getStaticResponse } from "@/lib/commands"
@@ -18,6 +19,7 @@ export function Portfolio() {
   const [theme, setTheme] = useState<Theme>("green")
   const [isDark, setIsDark] = useState(true)
   const [key, setKey] = useState(0)
+  const [playgroundId, setPlaygroundId] = useState<string | null>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const transitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const { isLocked: isSimoneLocked, trigger: triggerSimoneExplosion } = useSimoneExplosion(contentRef)
@@ -68,6 +70,25 @@ export function Portfolio() {
   const handleCommand = useCallback((command: string): { success: boolean; message?: string } => {
     if (isSimoneLocked && command !== "simone") {
       return { success: false, message: "simone protocol running..." }
+    }
+
+    // Playground commands
+    if (command === "playground" || command === "playgrounds") {
+      const ids = getRenderablePlaygroundIds()
+      return { success: true, message: `available: ${ids.map(id => `playground ${id}`).join(", ")}` }
+    }
+    if (command.startsWith("playground ")) {
+      const arg = command.slice("playground ".length).trim()
+      if (isRenderablePlaygroundId(arg)) {
+        setPlaygroundId(arg)
+        if (activeSection === "playground") {
+          setKey(k => k + 1)
+        } else {
+          navigateTo("playground")
+        }
+        return { success: true, message: `entering playground/${arg}...` }
+      }
+      return { success: false, message: `unknown playground: ${arg}. try: playgrounds to see available pgs` }
     }
 
     // Navigation commands
@@ -190,7 +211,7 @@ export function Portfolio() {
       default:
         return { success: false, message: `zsh: command not found: ${command}` }
     }
-  }, [isSimoneLocked, navigateTo, triggerGlitch, triggerMatrix, triggerParty, triggerMeow, triggerFlip, triggerSpin, showMessage, triggerSimoneExplosion])
+  }, [isSimoneLocked, activeSection, navigateTo, triggerGlitch, triggerMatrix, triggerParty, triggerMeow, triggerFlip, triggerSpin, showMessage, triggerSimoneExplosion])
 
   return (
     <div 
@@ -237,6 +258,27 @@ export function Portfolio() {
             {activeSection === "whoami" && <WhoAmISection />}
             {activeSection === "projects" && <ProjectsSection />}
             {activeSection === "contact" && <ContactSection />}
+            {activeSection === "playground" && (
+              playgroundId ? (
+                <PlaygroundSection playgroundId={playgroundId} />
+              ) : (
+                <div className="space-y-3 text-sm text-muted-foreground font-mono">
+                  <p>No playground selected.</p>
+                  <p>Available playgrounds:</p>
+                  <ul className="list-disc list-inside">
+                    {getRenderablePlaygroundIds().map((id) => (
+                      <li key={id}>
+                        <span className="text-primary">{id}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p>
+                    Open a playground with:{" "}
+                    <span className="text-primary">playground &lt;id&gt;</span>
+                  </p>
+                </div>
+              )
+            )}
           </div>
         </div>
       </main>

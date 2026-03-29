@@ -20,34 +20,6 @@ export const sectionAliases: Record<string, Section> = {
   mail: "contact",
 }
 
-const easterEggCommands = [
-  "matrix",
-  "party",
-  "glitch",
-  "meow",
-  "flip",
-  "barrel roll",
-  "bluepill",
-  "konami",
-  "iddqd",
-  "rickroll",
-  "sudo make me a sandwich",
-  "fortune",
-  "spin",
-  "xyzzy",
-]
-
-export function pickRandomEasterEggCommands(count: number): string[] {
-  const pool = [...easterEggCommands]
-
-  for (let i = pool.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[pool[i], pool[j]] = [pool[j], pool[i]]
-  }
-
-  return pool.slice(0, Math.min(count, pool.length))
-}
-
 /**
  * Pure response commands — no React state or DOM side effects needed.
  * Maps command aliases to their response message.
@@ -218,10 +190,9 @@ export function getStaticResponse(command: string): CommandResult | null {
     case "help":
     case "?":
     case "commands": {
-      const suggestions = pickRandomEasterEggCommands(3)
       return {
         success: true,
-        message: `whoami, projects, contact | all-commands | and also: ${suggestions.join(", ")}`,
+        message: `whoami, projects, contact, playgrounds | all-commands`,
       }
     }
   }
