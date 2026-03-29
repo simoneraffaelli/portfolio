@@ -55,12 +55,23 @@ interface Orb {
 }
 
 function spawnOrb(w: number, h: number, r?: number): Orb {
-  const radius = r ?? 35 + Math.random() * 35
+  // Base radius, then clamp so it always fits within the current bounds.
+  const baseRadius = r ?? 35 + Math.random() * 35
+  const maxRadius = Math.max(0, Math.min(w, h) / 2)
+  const radius = maxRadius > 0 ? Math.min(baseRadius, maxRadius) : 0
+
   const speed = 40 + Math.random() * 60
   const angle = Math.random() * Math.PI * 2
+
+  const xRange = w - radius * 2
+  const yRange = h - radius * 2
+
+  const x = xRange > 0 ? radius + Math.random() * xRange : w / 2
+  const y = yRange > 0 ? radius + Math.random() * yRange : h / 2
+
   return {
-    x: radius + Math.random() * (w - radius * 2),
-    y: radius + Math.random() * (h - radius * 2),
+    x,
+    y,
     vx: Math.cos(angle) * speed,
     vy: Math.sin(angle) * speed,
     r: radius,
