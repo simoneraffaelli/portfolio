@@ -41,6 +41,7 @@ const FONT_SIZE = 14
 const GAP = 12
 const PADDING = 16
 const MIN_LINE_W = 30
+const MAX_ORBS = 32
 
 const EMOJIS = ["🚀", "💀", "🔥", "✨", "🐐", "🧠", "👾", "🌀", "⚡", "🎯", "🫠", "💎"]
 
@@ -330,7 +331,7 @@ export function PretextPlayground() {
     ctx.fillStyle = rgba(mutedFg, 0.4)
     ctx.textAlign = "right"
     ctx.textBaseline = "bottom"
-    ctx.fillText("click to spawn · drag to move · right-click to pop", w - 12, h - 8)
+    ctx.fillText(`click to spawn · drag to move · right-click to pop · max ${MAX_ORBS}`, w - 12, h - 8)
 
     ctx.restore()
 
@@ -533,6 +534,9 @@ export function PretextPlayground() {
     const newOrb = spawnOrb(w, h)
     newOrb.x = coords.x
     newOrb.y = coords.y
+    if (s.orbs.length >= MAX_ORBS) {
+      s.orbs.shift()
+    }
     s.orbs.push(newOrb)
   }, [getCoords])
 
@@ -624,7 +628,7 @@ export function PretextPlayground() {
             <span className="text-primary">{metrics.ms.toFixed(2)}</span>ms
           </span>
           <span className="hidden sm:inline opacity-60">
-            click to spawn · drag to move · right-click to pop
+            click to spawn · drag to move · right-click to pop · max {MAX_ORBS}
           </span>
         </div>
       )}
