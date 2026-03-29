@@ -274,7 +274,7 @@ export function Portfolio() {
                   </ul>
                   <p>
                     Open a playground with:{" "}
-                    <span className="text-primary">open playground/&lt;id&gt;</span>
+                    <span className="text-primary">playground &lt;id&gt;</span>
                   </p>
                 </div>
               )
