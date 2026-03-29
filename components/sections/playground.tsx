@@ -1,9 +1,10 @@
 "use client"
 
+import type { ComponentType } from "react"
 import { PretextPlayground } from "@/components/playgrounds/pretext"
 import { ParticleTextPlayground } from "@/components/playgrounds/particle-text"
 
-const playgroundComponents: Record<string, React.ComponentType> = {
+const playgroundComponents: Record<string, ComponentType> = {
   pretext: PretextPlayground,
   particletext: ParticleTextPlayground,
 }
