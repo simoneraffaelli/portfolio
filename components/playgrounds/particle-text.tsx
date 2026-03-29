@@ -51,7 +51,7 @@ interface PhraseEntry {
 }
 
 const PHRASES: PhraseEntry[] = [
-  { label: "pretext", mode: "text", content: "pretext" },
+  { label: "particles", mode: "text", content: "particles" },
   { label: "simone", mode: "text", content: "simone" },
   { label: "🚀🚀🚀", mode: "text", content: "🚀🚀🚀" },
   { label: "NOICE", mode: "text", content: "NOICE" },
