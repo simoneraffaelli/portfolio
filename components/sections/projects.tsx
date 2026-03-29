@@ -148,7 +148,10 @@ export function ProjectsSection() {
 
                   {/* Expanded links */}
                   {expandedId === project.id && (
-                    <div className="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-border animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div
+                      data-simone-hide="true"
+                      className="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-border animate-in fade-in slide-in-from-top-2 duration-200"
+                    >
                       <a
                         href={project.link}
                         target="_blank"
