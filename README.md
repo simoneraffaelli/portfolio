@@ -83,7 +83,6 @@ hooks/
 lib/
   canvas-utils.ts           # shared canvas helpers (CSS var → sRGB resolution)
   commands.ts               # command parsing, static responses, section aliases
-  playgrounds.ts            # playground registry (ID → title + description)
   types.ts                  # Section and Theme types
   utils.ts                  # utility functions
 public/                     # icons and static assets
