@@ -258,7 +258,27 @@ export function Portfolio() {
             {activeSection === "whoami" && <WhoAmISection />}
             {activeSection === "projects" && <ProjectsSection />}
             {activeSection === "contact" && <ContactSection />}
-            {activeSection === "playground" && playgroundId && <PlaygroundSection playgroundId={playgroundId} />}
+            {activeSection === "playground" && (
+              playgroundId ? (
+                <PlaygroundSection playgroundId={playgroundId} />
+              ) : (
+                <div className="space-y-3 text-sm text-muted-foreground font-mono">
+                  <p>No playground selected.</p>
+                  <p>Available playgrounds:</p>
+                  <ul className="list-disc list-inside">
+                    {getRenderablePlaygroundIds().map((id) => (
+                      <li key={id}>
+                        <span className="text-primary">{id}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p>
+                    Open a playground with:{" "}
+                    <span className="text-primary">open playground/&lt;id&gt;</span>
+                  </p>
+                </div>
+              )
+            )}
           </div>
         </div>
       </main>
