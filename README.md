@@ -318,4 +318,4 @@ Below is the full list of recognized commands available in the terminal UI.
 - Some commands trigger animations, temporary visual effects, or playful fake shell responses.
 - Unknown commands return `zsh: command not found: <input>`.
 - Playgrounds are canvas-based and fully theme-aware — they resolve CSS custom properties (oklch) to sRGB via a 1×1 canvas readback technique and re-sync automatically when the theme or light/dark mode changes.
-- The playground system is registry-driven: adding a new playground only requires an entry in `lib/playgrounds.ts`, a component in `components/playgrounds/`, and a route in `components/sections/playground.tsx`.
+- The playground system is wired through `components/sections/playground.tsx`: adding a new playground requires creating a component in `components/playgrounds/` and registering it in `components/sections/playground.tsx`.
