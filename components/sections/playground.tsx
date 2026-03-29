@@ -14,7 +14,7 @@ export function getRenderablePlaygroundIds(): string[] {
 }
 
 export function isRenderablePlaygroundId(id: string): boolean {
-  return id in playgroundComponents
+  return Object.prototype.hasOwnProperty.call(playgroundComponents, id)
 }
 
 interface PlaygroundSectionProps {
