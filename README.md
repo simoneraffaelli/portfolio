@@ -9,10 +9,11 @@ Instead of static navigation and traditional hero sections, this site is designe
 This project is a personal portfolio experience focused on:
 
 - fast keyboard-first interaction
-- interactive section navigation (whoami, projects, contact)
+- interactive section navigation (whoami, projects, contact, playground)
 - command-driven UX with aliases and easter eggs
 - dynamic visual modes and micro-animations (matrix rain, glitch effects, party mode, etc.)
 - a themed terminal aesthetic in both dark and light modes
+- interactive canvas playgrounds showcasing creative coding demos
 
 The core idea is to make browsing a portfolio feel more like using a developer tool than reading a static brochure page.
 
@@ -26,6 +27,9 @@ The core idea is to make browsing a portfolio feel more like using a developer t
 - Scrollable content panes with custom styled scrollbars
 - Dozens of hidden/fun commands and responses
 - Randomized command suggestions in the help output
+- **Playground system** — extensible sub-commands for interactive canvas demos:
+  - `playground pretext` — "Text Chaos": bouncing emoji orbs with real-time text reflow powered by [@chenglou/pretext](https://github.com/chenglou/pretext). Text flows around circular obstacles using JS-only layout (zero DOM reads). Click to spawn orbs, drag to move, right-click to pop.
+  - `playground particletext` — "Particle Text": text and ASCII art rendered as thousands of individual character particles. Hover to scatter them with mouse repulsion physics, click to cycle through phrases (including braille art). Particles spring back to their home positions with velocity-based coloring.
 
 ## Stack
 
@@ -35,6 +39,7 @@ The core idea is to make browsing a portfolio feel more like using a developer t
 - Tailwind CSS v4
 - shadcn/ui
 - Lucide + Simple Icons
+- [@chenglou/pretext](https://github.com/chenglou/pretext) — JS-only text layout engine (used in playground pretext)
 
 ## Getting Started
 
@@ -67,13 +72,19 @@ components/
     whoami.tsx              # animated typing hero + skills grid
     projects.tsx            # collapsible project cards
     contact.tsx             # email copy + social links
+    playground.tsx          # playground router — maps playground IDs to components
+  playgrounds/
+    pretext.tsx             # "Text Chaos" — bouncing orbs + real-time text reflow
+    particle-text.tsx       # "Particle Text" — character particles with physics
   ui/
     simple-icon.tsx         # simple-icons wrapper component
 hooks/
   use-easter-eggs.ts        # visual effects: matrix, glitch, party, meow, flip, spin
   use-simone-explosion.ts   # simone protocol letter-explosion animation
 lib/
+  canvas-utils.ts           # shared canvas helpers (CSS var → sRGB resolution)
   commands.ts               # command parsing, static responses, section aliases
+  playgrounds.ts            # playground registry (ID → title + description)
   types.ts                  # Section and Theme types
   utils.ts                  # utility functions
 public/                     # icons and static assets
@@ -101,6 +112,12 @@ Below is the full list of recognized commands available in the terminal UI.
 - `reach`
 - `mail`
 - `old` (opens `https://old.simone.ooo/` in a new tab)
+
+### Playground Commands
+
+- `playground` / `playgrounds` — lists all available playgrounds
+- `playground pretext` — opens "Text Chaos" (bouncing orbs + text reflow)
+- `playground particletext` — opens "Particle Text" (character particle physics)
 
 ### Help And Terminal Basics
 
@@ -302,3 +319,5 @@ Below is the full list of recognized commands available in the terminal UI.
 - The `help` command intentionally shows a random selection of easter-egg suggestions each time.
 - Some commands trigger animations, temporary visual effects, or playful fake shell responses.
 - Unknown commands return `zsh: command not found: <input>`.
+- Playgrounds are canvas-based and fully theme-aware — they resolve CSS custom properties (oklch) to sRGB via a 1×1 canvas readback technique and re-sync automatically when the theme or light/dark mode changes.
+- The playground system is registry-driven: adding a new playground only requires an entry in `lib/playgrounds.ts`, a component in `components/playgrounds/`, and a route in `components/sections/playground.tsx`.

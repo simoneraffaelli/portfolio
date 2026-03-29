@@ -221,7 +221,7 @@ export function getStaticResponse(command: string): CommandResult | null {
       const suggestions = pickRandomEasterEggCommands(3)
       return {
         success: true,
-        message: `whoami, projects, contact | all-commands | and also: ${suggestions.join(", ")}`,
+        message: `whoami, projects, contact, playground <name> | all-commands | and also: ${suggestions.join(", ")}`,
       }
     }
   }
