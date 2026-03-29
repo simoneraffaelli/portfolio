@@ -26,7 +26,6 @@ The core idea is to make browsing a portfolio feel more like using a developer t
 - Animated section transitions
 - Scrollable content panes with custom styled scrollbars
 - Dozens of hidden/fun commands and responses
-- Randomized command suggestions in the help output
 - **Playground system** — extensible sub-commands for interactive canvas demos:
   - `playground pretext` — "Text Chaos": bouncing emoji orbs with real-time text reflow powered by [@chenglou/pretext](https://github.com/chenglou/pretext). Text flows around circular obstacles using JS-only layout (zero DOM reads). Click to spawn orbs, drag to move, right-click to pop.
   - `playground particletext` — "Particle Text": text and ASCII art rendered as thousands of individual character particles. Hover to scatter them with mouse repulsion physics, click to cycle through phrases (including braille art). Particles spring back to their home positions with velocity-based coloring.
@@ -316,7 +315,6 @@ Below is the full list of recognized commands available in the terminal UI.
 
 ## Notes
 
-- The `help` command intentionally shows a random selection of easter-egg suggestions each time.
 - Some commands trigger animations, temporary visual effects, or playful fake shell responses.
 - Unknown commands return `zsh: command not found: <input>`.
 - Playgrounds are canvas-based and fully theme-aware — they resolve CSS custom properties (oklch) to sRGB via a 1×1 canvas readback technique and re-sync automatically when the theme or light/dark mode changes.
