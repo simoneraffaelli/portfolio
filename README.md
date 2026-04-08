@@ -110,6 +110,7 @@ Below is the full list of recognized commands available in the terminal UI.
 - `reach`
 - `mail`
 - `old` (opens `https://old.simone.ooo/` in a new tab)
+- `void` (opens `https://thevoid.simone.ooo/` in a new tab)
 
 ### Playground Commands
 

@@ -43,6 +43,15 @@ const projects = [
     link: "https://vibescout.simone.ooo",
     github: "https://github.com/simoneraffaelli/vibescout-web",
     year: `2026`,
+  },
+  {
+    id: "05",
+    title: "The Void",
+    description: "Just an interactive canvas",
+    tech: ["Next.js", "Google Stitch", "Tailwind CSS", "Claude Code"],
+    link: "https://thevoid.simone.ooo",
+    github: "https://github.com/simoneraffaelli/thevoid",
+    year: `2026`,
   }
 ]
 
