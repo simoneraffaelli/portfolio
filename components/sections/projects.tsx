@@ -50,7 +50,7 @@ const projects = [
     description: "Just an interactive canvas",
     tech: ["Next.js", "Google Stitch", "Tailwind CSS", "Claude Code"],
     link: "https://thevoid.simone.ooo",
-    github: "https://github.com/simoneraffaelli/thevoid",
+    github: "https://github.com/simoneraffaelli/the-void",
     year: `2026`,
   }
 ]
