@@ -194,6 +194,10 @@ export function Portfolio() {
         window.open("https://old.simone.ooo/", "_blank", "noopener,noreferrer")
         return { success: true, message: "opening old portfolio..." }
 
+      case "void":
+        window.open("https://thevoid.simone.ooo/", "_blank", "noopener,noreferrer")
+        return { success: true, message: "entering the void..." }
+
       case "secret":
       case "secrets":
       case "easter":
