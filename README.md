@@ -113,9 +113,9 @@ Below is the full list of recognized commands available in the terminal UI.
 
 ### Playground Commands
 
-- `playground` / `playgrounds` — lists all available playgrounds
-- `playground pretext` — opens "Text Chaos" (bouncing orbs + text reflow)
-- `playground particletext` — opens "Particle Text" (character particle physics)
+- `playground` / `playgrounds` / `pg` — opens the playground section (lists available experiments)
+- `playground pretext` / `pg pretext` — opens "Text Chaos" (bouncing orbs + text reflow)
+- `playground particletext` / `pg particletext` — opens "Particle Text" (character particle physics)
 
 ### Help And Terminal Basics
 

@@ -6,7 +6,7 @@ import { TitleBar } from "./title-bar"
 import { WhoAmISection } from "./sections/whoami"
 import { ProjectsSection } from "./sections/projects"
 import { ContactSection } from "./sections/contact"
-import { PlaygroundSection, getRenderablePlaygroundIds, isRenderablePlaygroundId } from "./sections/playground"
+import { PlaygroundSection, PlaygroundListSection, getRenderablePlaygroundIds, isRenderablePlaygroundId } from "./sections/playground"
 import { MatrixRain } from "./matrix-rain"
 import type { Section, Theme } from "@/lib/types"
 import { sectionAliases, getStaticResponse } from "@/lib/commands"
@@ -73,12 +73,17 @@ export function Portfolio() {
     }
 
     // Playground commands
-    if (command === "playground" || command === "playgrounds") {
-      const ids = getRenderablePlaygroundIds()
-      return { success: true, message: `available: ${ids.map(id => `playground ${id}`).join(", ")}` }
+    if (command === "playground" || command === "playgrounds" || command === "pg") {
+      setPlaygroundId(null)
+      if (activeSection === "playground") {
+        setKey(k => k + 1)
+      } else {
+        navigateTo("playground")
+      }
+      return { success: true, message: "cd playground" }
     }
-    if (command.startsWith("playground ")) {
-      const arg = command.slice("playground ".length).trim()
+    if (command.startsWith("playground ") || command.startsWith("pg ")) {
+      const arg = command.startsWith("pg ") ? command.slice("pg ".length).trim() : command.slice("playground ".length).trim()
       if (isRenderablePlaygroundId(arg)) {
         setPlaygroundId(arg)
         if (activeSection === "playground") {
@@ -262,21 +267,12 @@ export function Portfolio() {
               playgroundId ? (
                 <PlaygroundSection playgroundId={playgroundId} />
               ) : (
-                <div className="space-y-3 text-sm text-muted-foreground font-mono">
-                  <p>No playground selected.</p>
-                  <p>Available playgrounds:</p>
-                  <ul className="list-disc list-inside">
-                    {getRenderablePlaygroundIds().map((id) => (
-                      <li key={id}>
-                        <span className="text-primary">{id}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <p>
-                    Open a playground with:{" "}
-                    <span className="text-primary">playground &lt;id&gt;</span>
-                  </p>
-                </div>
+                <PlaygroundListSection
+                  onOpen={(id) => {
+                    setPlaygroundId(id)
+                    setKey(k => k + 1)
+                  }}
+                />
               )
             )}
           </div>
