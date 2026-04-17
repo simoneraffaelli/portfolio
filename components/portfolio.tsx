@@ -181,8 +181,8 @@ export function Portfolio() {
         triggerSpin()
         return { success: true, message: "wheeeee!" }
 
-      case "all-cmds":
-      case "all-commands":
+      case "cmds":
+      case "commands":
         window.open(
           "https://github.com/simoneraffaelli/portfolio?tab=readme-ov-file#command-reference",
           "_blank",
@@ -197,6 +197,11 @@ export function Portfolio() {
       case "void":
         window.open("https://thevoid.simone.ooo/", "_blank", "noopener,noreferrer")
         return { success: true, message: "entering the void..." }
+
+      case "sizix":
+      case "syzygy":
+        window.open("https://sizix.simone.ooo", "_blank", "noopener,noreferrer")
+        return { success: true, message: "opening sizix dashboard..." }
 
       case "secret":
       case "secrets":

@@ -188,11 +188,10 @@ export function getStaticResponse(command: string): CommandResult | null {
     case "uptime":
       return { success: true, message: `up ${Math.floor(Math.random() * 365)} days, still coding` }
     case "help":
-    case "?":
-    case "commands": {
+    case "?": {
       return {
         success: true,
-        message: `whoami, projects, contact, playgrounds | all-commands`,
+        message: `whoami, projects, contact, playgrounds | commands`,
       }
     }
   }
