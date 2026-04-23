@@ -53,7 +53,7 @@ const projects = [
     github: "https://github.com/simoneraffaelli/the-void",
     year: `2026`,
   },
-    {
+  {
     id: "06",
     title: "Sizix",
     description: "AI-powered autonomous trading bot for perpetual futures on Hyperliquid. Trades using LightGBM machine learning predictions with adaptive risk management.",
