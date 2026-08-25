@@ -39,6 +39,14 @@ export default function NotFound() {
   }, [pathname])
 
   useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      inputRef.current?.focus({ preventScroll: true })
+    })
+
+    return () => window.cancelAnimationFrame(frame)
+  }, [])
+
+  useEffect(() => {
     const updateClock = () => {
       const now = new Date()
       setClock(
