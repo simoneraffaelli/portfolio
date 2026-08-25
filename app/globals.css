@@ -246,6 +246,52 @@
   animation: bounce-subtle 0.3s ease-out;
 }
 
+/* 404 system screen */
+.not-found-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.not-found-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.26;
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--border) 56%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--border) 45%, transparent) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+}
+
+.not-found-scanline {
+  position: absolute;
+  z-index: 20;
+  inset: -15% 0 auto;
+  height: 18%;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, oklch(from var(--primary) l c h / 0.035), transparent);
+  animation: not-found-scan 7s linear infinite;
+}
+
+.not-found-code {
+  text-shadow:
+    1px 0 0 oklch(from var(--primary) l c h / 0.28),
+    -1px 0 0 oklch(from var(--destructive) l c h / 0.2),
+    0 0 4rem oklch(from var(--primary) l c h / 0.08);
+}
+
+@keyframes not-found-scan {
+  to { transform: translateY(760%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .not-found-scanline {
+    display: none;
+  }
+}
+
 .terminal-scrollbar {
   scrollbar-gutter: stable;
   scrollbar-width: thin;
