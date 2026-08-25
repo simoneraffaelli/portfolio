@@ -9,12 +9,6 @@ type LogLine = {
   error?: boolean
 }
 
-type NetworkDiagnostics = {
-  clientIp: string
-  serverIp: string
-  responseTime: string
-}
-
 const NAVIGATION_COMMANDS = new Set(["home", "cd /", "cd ~", "exit"])
 
 export default function NotFound() {
@@ -26,11 +20,7 @@ export default function NotFound() {
   const [date, setDate] = useState("----/--/--")
   const [history, setHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
-  const [networkDiagnostics, setNetworkDiagnostics] = useState<NetworkDiagnostics>({
-    clientIp: "private / browser",
-    serverIp: "anycast / edge",
-    responseTime: "calculating...",
-  })
+  const [responseTime, setResponseTime] = useState("calculating...")
   const [logs, setLogs] = useState<LogLine[]>([
     {
       command: "resolve --requested-route",
@@ -75,16 +65,11 @@ export default function NotFound() {
 
   useEffect(() => {
     const navigation = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined
-    const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-    const responseTime = navigation
+    const measuredResponseTime = navigation
       ? `${Math.max(1, Math.round(navigation.responseEnd - navigation.requestStart))} ms`
       : "unavailable"
 
-    setNetworkDiagnostics({
-      clientIp: isLocal ? "127.0.0.1" : "private / browser",
-      serverIp: isLocal ? "127.0.0.1" : "anycast / edge",
-      responseTime,
-    })
+    setResponseTime(measuredResponseTime)
   }, [])
 
   const addLog = (command: string, response: string, error = false) => {
@@ -183,14 +168,12 @@ export default function NotFound() {
       </header>
 
       <main className="relative z-10 mx-auto grid h-[calc(100dvh-5.5rem)] w-full max-w-7xl grid-rows-[auto_1fr_auto] px-4 sm:px-6">
-        <div className="grid grid-cols-2 border-x border-b border-border/70 text-[10px] uppercase tracking-[0.14em] text-muted-foreground sm:grid-cols-4 sm:text-xs xl:grid-cols-7">
+        <div className="grid grid-cols-2 border-x border-b border-border/70 text-[10px] uppercase tracking-[0.14em] text-muted-foreground sm:grid-cols-3 sm:text-xs lg:grid-cols-5">
           <Diagnostic label="error" value="404 / not_found" emphasis />
           <Diagnostic label="session" value={sessionId} />
           <Diagnostic label="date" value={date} />
           <Diagnostic label="local time" value={clock} />
-          <Diagnostic label="client ip address" value={networkDiagnostics.clientIp} />
-          <Diagnostic label="server ip address" value={networkDiagnostics.serverIp} />
-          <Diagnostic label="server response time" value={networkDiagnostics.responseTime} />
+          <Diagnostic label="response time" value={responseTime} />
         </div>
 
         <section className="grid min-h-0 grid-cols-1 border-x border-border/70 lg:grid-cols-12">
@@ -244,7 +227,7 @@ export default function NotFound() {
           onClick={() => inputRef.current?.focus()}
           aria-label="Recovery terminal"
         >
-          <div className="mb-1 h-[3.25rem] space-y-0.5 overflow-hidden text-[10px] leading-relaxed">
+          <div className="mb-1 flex h-[3.25rem] flex-col justify-end gap-0.5 overflow-hidden text-[10px] leading-relaxed">
             {logs.map((log, index) => (
               <div key={`${log.command}-${index}`} className="truncate text-muted-foreground">
                 {log.command}
