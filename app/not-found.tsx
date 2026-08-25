@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { FormEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react"
 
@@ -8,6 +7,12 @@ type LogLine = {
   command: string
   response: string
   error?: boolean
+}
+
+type NetworkDiagnostics = {
+  clientIp: string
+  serverIp: string
+  responseTime: string
 }
 
 const NAVIGATION_COMMANDS = new Set(["home", "cd /", "cd ~", "exit"])
@@ -21,6 +26,11 @@ export default function NotFound() {
   const [date, setDate] = useState("----/--/--")
   const [history, setHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
+  const [networkDiagnostics, setNetworkDiagnostics] = useState<NetworkDiagnostics>({
+    clientIp: "private / browser",
+    serverIp: "anycast / edge",
+    responseTime: "calculating...",
+  })
   const [logs, setLogs] = useState<LogLine[]>([
     {
       command: "resolve --requested-route",
@@ -61,6 +71,20 @@ export default function NotFound() {
     updateClock()
     const interval = window.setInterval(updateClock, 1000)
     return () => window.clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    const navigation = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined
+    const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    const responseTime = navigation
+      ? `${Math.max(1, Math.round(navigation.responseEnd - navigation.requestStart))} ms`
+      : "unavailable"
+
+    setNetworkDiagnostics({
+      clientIp: isLocal ? "127.0.0.1" : "private / browser",
+      serverIp: isLocal ? "127.0.0.1" : "anycast / edge",
+      responseTime,
+    })
   }, [])
 
   const addLog = (command: string, response: string, error = false) => {
@@ -147,15 +171,11 @@ export default function NotFound() {
       <div className="not-found-scanline" aria-hidden="true" />
 
       <header className="relative z-10 flex h-12 items-center justify-between border-b border-border bg-card/50 px-4 sm:px-6">
-        <Link
-          href="/"
-          className="group flex items-center gap-2 text-xs sm:text-sm"
-          aria-label="Return to the portfolio homepage"
-        >
+        <div className="flex items-center gap-2 text-sm">
           <span className="text-primary">~</span>
-          <span className="text-muted-foreground">/dev/</span>
-          <span className="transition-colors group-hover:text-primary">portfolio</span>
-        </Link>
+          <span className="hidden text-muted-foreground sm:inline">/dev/</span>
+          <span className="hidden font-medium text-foreground sm:inline">portfolio</span>
+        </div>
         <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-muted-foreground sm:text-xs">
           <span className="h-1.5 w-1.5 rounded-full bg-destructive shadow-[0_0_12px_var(--destructive)]" />
           route_unresolved
@@ -163,15 +183,18 @@ export default function NotFound() {
       </header>
 
       <main className="relative z-10 mx-auto grid h-[calc(100dvh-5.5rem)] w-full max-w-7xl grid-rows-[auto_1fr_auto] px-4 sm:px-6">
-        <div className="grid grid-cols-2 border-x border-b border-border/70 text-[10px] uppercase tracking-[0.14em] text-muted-foreground sm:grid-cols-4 sm:text-xs">
+        <div className="grid grid-cols-2 border-x border-b border-border/70 text-[10px] uppercase tracking-[0.14em] text-muted-foreground sm:grid-cols-4 sm:text-xs xl:grid-cols-7">
           <Diagnostic label="error" value="404 / not_found" emphasis />
           <Diagnostic label="session" value={sessionId} />
           <Diagnostic label="date" value={date} />
           <Diagnostic label="local time" value={clock} />
+          <Diagnostic label="client ip address" value={networkDiagnostics.clientIp} />
+          <Diagnostic label="server ip address" value={networkDiagnostics.serverIp} />
+          <Diagnostic label="server response time" value={networkDiagnostics.responseTime} />
         </div>
 
         <section className="grid min-h-0 grid-cols-1 border-x border-border/70 lg:grid-cols-12">
-          <div className="flex min-h-0 flex-col justify-between border-b border-border/70 px-4 py-6 sm:px-8 sm:py-8 lg:col-span-8 lg:border-b-0 lg:border-r">
+          <div className="flex min-h-0 flex-col border-b border-border/70 px-4 py-6 sm:px-8 sm:py-8 lg:col-span-8 lg:border-b-0 lg:border-r">
             <div>
               <p className="mb-5 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:text-xs">
                 <span className="text-primary">//</span>
@@ -190,23 +213,6 @@ export default function NotFound() {
               </div>
             </div>
 
-            <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-xs sm:text-sm">
-              <Link
-                href="/"
-                className="group inline-flex items-center gap-2 border border-primary/50 bg-primary/10 px-4 py-2.5 text-primary transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                <span aria-hidden="true">$</span>
-                cd /home
-                <span className="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
-              </Link>
-              <button
-                type="button"
-                onClick={() => inputRef.current?.focus()}
-                className="text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:text-primary"
-              >
-                open recovery terminal
-              </button>
-            </div>
           </div>
 
           <aside className="hidden min-h-0 flex-col justify-between p-6 lg:col-span-4 lg:flex">
@@ -234,14 +240,14 @@ export default function NotFound() {
         </section>
 
         <section
-          className="border border-border/70 bg-card/50 px-3 py-2.5 sm:px-4"
+          className="h-24 border border-border/70 bg-card/50 px-3 py-2.5 sm:px-4"
           onClick={() => inputRef.current?.focus()}
           aria-label="Recovery terminal"
         >
-          <div className="mb-1 hidden max-h-14 space-y-0.5 overflow-hidden text-[10px] leading-relaxed sm:block">
+          <div className="mb-1 h-[3.25rem] space-y-0.5 overflow-hidden text-[10px] leading-relaxed">
             {logs.map((log, index) => (
               <div key={`${log.command}-${index}`} className="truncate text-muted-foreground">
-                <span className="text-primary">visitor@portfolio:~$</span> {log.command}
+                {log.command}
                 <span className={log.error ? "ml-3 text-destructive" : "ml-3 text-foreground/70"}>
                   {log.response}
                 </span>
@@ -280,9 +286,8 @@ export default function NotFound() {
         </section>
       </main>
 
-      <footer className="relative z-10 flex h-10 items-center justify-between border-t border-border bg-card/30 px-4 text-[10px] text-muted-foreground sm:px-6 sm:text-xs">
+      <footer className="relative z-10 flex h-10 items-center border-t border-border bg-card/30 px-4 text-[10px] text-muted-foreground sm:px-6 sm:text-xs">
         <span><span className="text-primary">$</span> exception handled safely</span>
-        <span className="hidden sm:inline">press tab for autocomplete</span>
       </footer>
     </div>
   )
