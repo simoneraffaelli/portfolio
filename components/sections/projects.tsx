@@ -61,6 +61,15 @@ const projects = [
     link: "https://sizix.simone.ooo",
     github: "https://github.com/simoneraffaelli/trading-dashboard",
     year: `2026`,
+  },
+    {
+    id: "07",
+    title: "geomraffaelli.it",
+    description: "Personal website showcasing the portfolio of a surveyor.",
+    tech: ["Next.js", "Tailwind CSS", "TypeScript", "Vercel"],
+    link: "https://geomraffaelli.it",
+    github: "#",
+    year: `2026`,
   }
 ]
 
