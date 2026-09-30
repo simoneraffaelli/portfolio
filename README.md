@@ -42,6 +42,8 @@ The core idea is to make browsing a portfolio feel more like using a developer t
 
 ## Getting Started
 
+Use Node.js 24.x (also configured for Vercel in `package.json` and pinned in `.nvmrc` for compatible version managers).
+
 Install dependencies:
 
 ```bash
